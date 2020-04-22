@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <style type="text/css">
+        html {
+            overflow: auto;
+        }
+
+        html,
+        body,
+        div,
+        iframe {
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+            border: none;
+        }
+
+        iframe {
+            display: block;
+            width: 100%;
+            border: none;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="openFrame">test</button>
+    <script>
+
+        $(document).ready(function () {
+            $('#openFrame').click(function () {
+                var url = "url";
+                $('<iframe />', {
+                    name: 'frame',
+                    id: 'frame',
+                    src: "https://mp3.zing.vn/",
+                    width: '50%',
+                    height: '50%'
+                }).appendTo('body');
+            });
+        });
+    </script>
+    <!-- 
+                window.open('http://www.website.com/page')
+
+    <iframe src="https://en.wikipedia.org/wiki/HTML_element#Frames" frameborder="0" marginheight="0" marginwidth="0"
+        width="100%" height="100%" scrolling="auto">
+    </iframe> -->
+</body>

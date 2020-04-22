@@ -1,0 +1,885 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Crown - premium responsive admin template for backend systems</title>
+    <link href="css/main.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+
+    <script type="text/javascript" src="js/plugins/spinner/jquery.mousewheel.js"></script>
+
+    <script type="text/javascript" src="js/plugins/charts/excanvas.min.js"></script>
+    <script type="text/javascript" src="js/plugins/charts/jquery.sparkline.min.js"></script>
+
+    <script type="text/javascript" src="js/plugins/forms/uniform.js"></script>
+    <script type="text/javascript" src="js/plugins/forms/jquery.cleditor.js"></script>
+    <script type="text/javascript" src="js/plugins/forms/jquery.validationEngine-en.js"></script>
+    <script type="text/javascript" src="js/plugins/forms/jquery.validationEngine.js"></script>
+    <script type="text/javascript" src="js/plugins/forms/jquery.tagsinput.min.js"></script>
+    <script type="text/javascript" src="js/plugins/forms/jquery.autosize.js"></script>
+    <script type="text/javascript" src="js/plugins/forms/jquery.maskedinput.min.js"></script>
+    <script type="text/javascript" src="js/plugins/forms/jquery.dualListBox.js"></script>
+    <script type="text/javascript" src="js/plugins/forms/jquery.inputlimiter.min.js"></script>
+    <script type="text/javascript" src="js/plugins/forms/chosen.jquery.min.js"></script>
+
+    <script type="text/javascript" src="js/plugins/wizard/jquery.form.js"></script>
+    <script type="text/javascript" src="js/plugins/wizard/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="js/plugins/wizard/jquery.form.wizard.js"></script>
+
+    <script type="text/javascript" src="js/plugins/uploader/plupload.js"></script>
+    <script type="text/javascript" src="js/plugins/uploader/plupload.html5.js"></script>
+    <script type="text/javascript" src="js/plugins/uploader/plupload.html4.js"></script>
+    <script type="text/javascript" src="js/plugins/uploader/jquery.plupload.queue.js"></script>
+
+    <script type="text/javascript" src="js/plugins/tables/datatable.js"></script>
+    <script type="text/javascript" src="js/plugins/tables/tablesort.min.js"></script>
+    <script type="text/javascript" src="js/plugins/tables/resizable.min.js"></script>
+
+    <script type="text/javascript" src="js/plugins/ui/jquery.tipsy.js"></script>
+    <script type="text/javascript" src="js/plugins/ui/jquery.collapsible.min.js"></script>
+    <script type="text/javascript" src="js/plugins/ui/jquery.prettyPhoto.js"></script>
+    <script type="text/javascript" src="js/plugins/ui/jquery.progress.js"></script>
+    <script type="text/javascript" src="js/plugins/ui/jquery.timeentry.min.js"></script>
+    <script type="text/javascript" src="js/plugins/ui/jquery.colorpicker.js"></script>
+    <script type="text/javascript" src="js/plugins/ui/jquery.jgrowl.js"></script>
+    <script type="text/javascript" src="js/plugins/ui/jquery.breadcrumbs.js"></script>
+    <script type="text/javascript" src="js/plugins/ui/jquery.sourcerer.js"></script>
+
+    <script type="text/javascript" src="js/plugins/jquery.fullcalendar.js"></script>
+    <script type="text/javascript" src="js/plugins/jquery.elfinder.js"></script>
+
+    <script type="text/javascript" src="js/custom.js"></script>
+
+
+    <!-- add Script for button F1 browser - Open chat -->
+    <script src="http://www.openjs.com/scripts/events/keyboard_shortcuts/shortcut.js"></script>
+    <style>
+        .chat-box-handle {
+            top: 40%;
+            right: 16px;
+            display: none;
+            z-index: 30;
+            position: fixed;
+        }
+
+        .chat-box {
+            height: auto;
+            position: absolute;
+            top: 25%;
+            /* right: 0; */
+            background: #d7d7d7;
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
+            min-width: 250px;
+            display: none;
+
+            /* transition: 0.2s ease-in-out; */
+            /* opacity: 0; */
+            /* visibility: hidden; */
+            /* transform: translateX(75px); */
+        }
+
+        .chat-box-open {
+            /* opacity: 1; */
+            /* visibility: visible; */
+            display: block;
+            z-index: 20;
+            /* transform: translateX(0px); */
+        }
+
+        .title-chat {
+            padding: 5px 0;
+            background: #bbbaba;
+            border-bottom: 2px solid;
+            border-top-left-radius: 3px;
+        }
+
+        .title-chat span {
+            padding-left: 5px;
+        }
+
+        .body-chat {
+            font-size: 12px;
+            padding: 8px;
+        }
+
+        .body-chat span {
+            margin-left: 3px;
+        }
+
+        .list-connected,
+        .conversation {
+            overflow: auto;
+            margin: 3px 0 6px 0;
+            border-radius: 2px;
+            background: white;
+            border: 1px solid #a9a9a961;
+        }
+
+        .list-connected {
+            height: 60px;
+        }
+
+        .conversation {
+            height: 135px;
+        }
+
+        .conversation .chat-partner {
+            padding: 5px 0 0px 5px;
+        }
+
+        .my-mess {
+            color: grey;
+        }
+
+        .partner-mess {
+            color: #00008bb8;
+        }
+
+        .btn-up-file {
+            float: right;
+            margin-top: 3px;
+        }
+
+
+        /* --------- UPLOAD FILE ----------- */
+        /* Uploading file */
+        .uploading-file {
+            margin: 5px;
+            background: lightblue;
+            border-radius: 5px;
+            /* padding: 5px; */
+        }
+
+        .progress {
+            padding: 0 !important;
+            background: lightblue;
+            margin: 0 5px;
+            text-align: center;
+        }
+
+        .progress .progress-bar {
+            background: white;
+        }
+
+        .progress .progress-bar-uploading {
+            width: 70%;
+            color: #fff;
+            text-align: center;
+            /* margin: 3px 0 5px 0; */
+            background-color: #337ab7;
+            height: 20px;
+        }
+
+        .progress .file-size {
+            font-size: 11px;
+        }
+
+        .file-info-1 {
+            float: left;
+            width: 15%;
+        }
+
+        .file-info-1 img {
+            width: 30px;
+            margin-top: 2px;
+        }
+
+        .file-info-1 .time-upload {
+            margin-top: 2px;
+        }
+
+        .file-info-2 {
+            float: left;
+            width: 77%;
+        }
+
+        .file-info-3 {
+            float: left;
+            width: 8%;
+        }
+
+        .file-info-3 img {
+            width: 15px;
+            margin-top: 20px;
+        }
+
+        .progress .file-name {
+            white-space: nowrap;
+            max-width: 140px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Upload file success*/
+        .upload-success {
+            margin: 5px;
+            background: lightblue;
+            border-radius: 5px;
+            padding: 5px;
+        }
+
+        .upload-success .progress {
+            /* text-align: left; */
+        }
+
+        .upload-success .file-name {
+            /* margin-top: 4px; */
+        }
+
+        .upload-success .file-size {
+            /* font-size: 11px;
+            margin-top: 2px; */
+        }
+
+        .upload-success .file-status {
+            /* margin-top: 4px; */
+            /* text-align: center; */
+        }
+
+        .user-chat-box {
+            margin-top: 7px;
+        }
+
+        .user-chat-box .input-chat-box {
+            margin: 0;
+            padding: 5px;
+            float: left;
+            border-radius: 2px;
+            width: 66%;
+            border: 1px solid #a9a9a961;
+        }
+
+        .user-chat-box .image-upload img {
+            width: 25px;
+            float: left;
+            margin-top: 3px;
+            margin-left: 10px;
+        }
+
+        .user-chat-box #file-input {
+            display: none;
+        }
+
+        .send-message {
+            width: 25px;
+            float: right;
+            margin-top: 3px;
+        }
+
+        .chat-box .title-chat .title-label {
+            float: left;
+            margin-top: 3px;
+        }
+
+        .chat-box .title-chat .title-btn-close {
+            width: 22px;
+            float: right;
+            margin-right: 3px;
+        }
+
+        .list-connected .connect-description {
+            padding: 5px;
+            background: white;
+            text-transform: uppercase;
+        }
+
+        .list-connected .connect-description .status {
+            padding-right: 5px;
+        }
+
+
+        /* REMOTE */
+        .bg-remote {
+            background: url("https://start.teamviewer.com/start/styles/background_globe.jpg?v=636184577786229812");
+            height: 100%;
+        }
+
+        .remote-wrapper,
+        .wrong-connect {
+            position: absolute;
+            bottom: 0;
+            text-align: center;
+            left: 0;
+            right: 0;
+        }
+
+        .remote-wrapper {
+            top: 25%;
+        }
+
+        .remote-wrapper .remote {
+            max-width: 290px;
+            margin: auto;
+            width: 100%;
+            border-top: 6px solid #2b73e8;
+            border-radius: 3px;
+            background: white;
+            padding: 25px 25px 20px 25px;
+            box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.3);
+        }
+
+        .remote-wrapper .form-remote {
+            padding: 7px 0px;
+        }
+
+        .remote-wrapper .form-remote:last-child {
+            margin-bottom: 5px;
+        }
+
+        .remote-wrapper .form-remote:after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        .remote-wrapper .remote .title {
+            margin-bottom: 10px;
+        }
+
+        .remote-wrapper .remote .description {
+            display: block;
+            text-align: left;
+            padding: 10px;
+        }
+
+        .remote-wrapper .label-remote {
+            margin-top: 6px;
+            display: inline-block;
+        }
+
+        .remote-wrapper .inputremote {
+            display: block;
+            float: right;
+            width: 75%;
+        }
+
+        .remote-wrapper .inputremote input {
+            height: 35px;
+            border-radius: 3px;
+            box-shadow: none !important;
+        }
+
+        .btn-remote {
+            font-size: 14px;
+            color: white;
+            text-align: center;
+            padding: 12px 12px;
+            max-height: 38px;
+            border-radius: 3px;
+            width: 75%;
+            background: #2b73e8;
+            margin-top: 10px;
+            border: 1px solid #cccccc;
+        }
+
+        .btn-remote:hover {
+            background: #1c55b0;
+        }
+
+        .overlay-wrong-connect {
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            display: none;
+        }
+
+        .wrong-connect {
+            top: 33%;
+            z-index: 2;
+            display: none;
+        }
+
+        .wrong-connect .error-message {
+            margin: auto;
+            max-width: 380px;
+            background: white;
+            border-radius: 3px;
+            border: 3px solid #585858;
+            box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(to bottom, #fafafa 0%, #efefef 100%);
+        }
+
+        .wrong-connect .error-message .title h6 {
+            padding: 10px;
+            border-bottom: 1px solid #cdcdcd;
+            text-align: left;
+        }
+
+        .wrong-connect .error-message .body {
+            background: #FAFAFA;
+        }
+
+        .wrong-connect .error-message .body .description {
+            padding: 15px;
+        }
+
+        .wrong-connect .error-message .footer {
+            border-top: 1px solid #cdcdcd;
+            background: linear-gradient(to bottom, #fafafa 0%, #efefef 100%);
+        }
+
+        .wrong-connect .error-message .footer button {
+            width: 17%;
+            margin-bottom: 5px;
+            margin-top: 6px;
+            background: linear-gradient(to bottom, #757d87 0%, #576270 100%);
+        }
+
+        .iframe-connect {
+            width: 100%;
+            height: 100%;
+            display: none;
+            z-index: 10;
+            position: absolute;
+        }
+
+        .user-connecting {
+            background: #cce5ff !important;
+        }
+    </style>
+</head>
+
+<body class="bg-remote">
+    <!-- Main content wrapper -->
+    <div class="remote-wrapper">
+        <div class="remote">
+            <div class="title">
+                <h3>Điều khiển máy tính từ xa</h3>
+            </div>
+            <div class="body">
+                <div class="description">
+                    Hãy nhập ID và Password của Đối tác mà bạn muốn kiểm soát hoặc hỗ trợ.
+                </div>
+                <form id="form_connect" action="" class="form">
+                    <div class="form-remote">
+                        <label class="label-remote">Your ID</label>
+                        <div class="inputremote">
+                            <input type="text" id="" value="" />
+                        </div>
+                    </div>
+                    <div class="form-remote">
+                        <label class="label-remote">Password</label>
+                        <div class="inputremote">
+                            <input type="text" id="" value="" />
+                        </div>
+                    </div>
+                    <button class="btn-remote" onclick="connectDevice()">Kết nối với đối tác</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="overlay_wrong_connect" class="ui-widget-overlay overlay-wrong-connect"></div>
+
+    <div id="wrong_connect" class="wrong-connect">
+        <div class="error-message">
+            <div class="title">
+                <h6>Dialog Title</h6>
+            </div>
+            <div class="body">
+                <div class="description">
+                    <p><img src="images/icons/color/minus-circle.png" alt="" class="icon" />
+                        <span id="notice-error"></span>
+                    </p>
+                </div>
+            </div>
+            <div class="footer">
+                <button onclick="closeErrorMessage()" class="btn-remote">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="list_iframe_connect">
+        <iframe id="iframe_connect_1" class="iframe-connect" src="" frameborder="0"></iframe>
+    </div>
+
+    <!-- CHAT BOX -->
+    <!-- Btn control chat box -->
+    <div class="chat-box-handle" onclick="toggleChatBox()">
+        <img style="width: 35px;" src="images/update/arrow-chat.png" alt="">
+    </div>
+    <!-- Chat box -->
+    <div id="chat_box" class="chat-box">
+        <div class="title-chat">
+            <span class="title-label">Ultraview</span>
+            <input class="title-btn-close" onclick="closeChatBox()" type="image" alt="Extra keys"
+                src="images/update/close.png">
+            <div style="clear: both;"></div>
+        </div>
+        <div class="body-chat">
+            <span>Ai đang xem máy tính của bạn</span>
+            <input class="title-btn-close" onclick="newConnect()" style="width: 20px;" type="image" alt="Extra keys"
+                src="images/update/close.png">
+            <div class="list-connected" id="list_connected">
+                <div id="user_connected_1" class="connect-description user-connecting">
+                    <div class="user-status" style="float:left; width: 85%;" onclick="showIframeConnect(1)">
+                        <img class="status" style=" padding-top: 3px;" src="images/update/offline.png" alt="">
+                        <span>ewrwerwere</span>
+                    </div>
+                    <div class="close-connect" onclick="removeConnection(1)"
+                        style="float: right; background: red; cursor: pointer;">
+                        <img src="images/update/close.png" alt="" style="width: 15px;">
+                    </div>
+                    <div style="clear: both;"></div>
+                </div>
+            </div>
+
+            <span>Lịch sử chat</span>
+            <div class="conversation" id="conversation">
+                <div class="chat-partner">
+                    <span class="my-mess"><b>Tôi </b>(2:29): </span>123
+                </div>
+
+                <div class="chat-partner">
+                    <span class="partner-mess"><b>Máy đối tác </b>(2:29): </span>fdghidfhgih
+                </div>
+
+                <!-- File đang upload -->
+                <div class="uploading-file chat-partner">
+                    <div class="file-info-1">
+                        <img src="images/update/file.png" alt="">
+                        <div class="time-upload">10:04</div>
+                    </div>
+                    <div class="file-info-2">
+                        <div class="progress">
+                            <div class="file-name">xxx.rar</div>
+                            <div class="progress-bar">
+                                <div class="progress-bar-uploading">70%</div>
+                            </div>
+                            <div class="file-size">6.95 /119 MB</div>
+                        </div>
+                    </div>
+                    <div class="file-info-3">
+                        <img src="images/update/close.png" alt="">
+                    </div>
+                    <div style="clear: both;"></div>
+                </div>
+
+                <!-- File upload  thành công-->
+                <div class="upload-success chat-partner">
+                    <div class="file-info-1">
+                        <img src="images/update/file.png" alt="">
+                        <div class="time-upload">10:04</div>
+                    </div>
+                    <div class="file-info-2">
+                        <div class="progress">
+                            <div class="file-name">xxx.rar</div>
+                            <div class="file-size">119 MB</div>
+                            <div class="file-status">Success</div>
+                        </div>
+                    </div>
+                    <div style="clear: both;"></div>
+                </div>
+            </div>
+
+            <div class="user-chat-box">
+                <input id="input_chat_box" type="text" class="input-chat-box" placeholder="Nhấn F1 để chat nhanh">
+                <div class="image-upload">
+                    <label for="file-input">
+                        <img src="images/update/attach.png" />
+                    </label>
+                    <!-- <input id="file-input" type="file" /> -->
+                </div>
+                <input class="send-message" type="image" src="images/update/send-mess.png" id="">
+                <div style="clear: both;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check xem iframe cuối cùng đang là bao nhiêu 
+        // Để khí tạo iframe mới thì đây sẽ là số gán với id của iframe đó
+        var currentIndex = 1;
+
+        // Check xem đây là file id bao nhiêu
+        var indexSendFile = 1;
+
+        $("#form_connect").submit(function (e) {
+            e.preventDefault();
+        });
+
+        // Tắt popup thông báo lỗi
+        function closeErrorMessage() {
+            $('#wrong_connect').css('display', 'none');
+            $('#overlay_wrong_connect').css('display', 'none');
+        }
+
+        // Kết nối tới máy chủ khác (get src cho kết nối mới)
+        function connectDevice() {
+            $.get('https://ultraviewer.net/api/getserveripandport.aspx', { id: '123', pass: '123' }, function (data, textStatus, jqXHR) {
+                let x = data.split(":");
+                let host = x[0];
+                let port = x[1];
+                let url = `http://localhost/novnc/vnc.html?host=${host}&port=${port}&autoconnect=1&password=nhaidepxop`;
+
+                // Show iframe
+                setIframeSrc(url);
+            });
+        }
+
+        // Set src cho iframe ở trong "list_iframe_connect"
+        function setIframeSrc(src) {
+            // Luôn set src vào iframe cuối cùng 
+            let iframeConnect = "#iframe_connect_" + currentIndex;
+            $(iframeConnect).attr('src', src);
+
+            // Hiển thị luôn iframe vừa gán đường dẫn
+            showIframeConnect(currentIndex, true);
+        }
+
+        function showIframeConnect(id, addConnect) {
+            hideAllElements("iframe-connect");
+
+            let iframeConnect = "#iframe_connect_" + id;
+            if ($(iframeConnect).attr('src') != "") {
+                $(iframeConnect).css('display', 'block');
+            }
+
+            hideAllElements("connect-description");
+
+            let userConnect = "#user_connected_" + id;
+            $(userConnect).addClass('user-connecting');
+
+            // Hiện đèn sáng ở chat box => xem đâu là user đang được kết nối
+            // Biến addConnect này để kiểm tra 
+            // xem đây có phải là kết nối vừa mới được set src không (vừa kết nối tới) hay là chỉ là switch iframe thôi
+            if (addConnect) {
+                $(userConnect).css('display', 'block');
+                $(userConnect).find(".status").attr('src', 'images/update/online.png');
+                $(userConnect).find("span").text(userConnect);
+            }
+
+            $('.chat-box-handle').css('display', 'block');
+        }
+
+        function removeConnection(id) {
+            let userConnect = "#user_connected_" + id;
+
+            if ($(userConnect).hasClass("user-connecting")) {
+                if ($(".iframe-connect").length > 0) {
+                    $(".iframe-connect")[$(".iframe-connect").length - 1].css('display', 'block');
+                }
+            }
+            $(userConnect).remove();
+
+
+            // Xóa src của iframe đó đi
+            let iframeConnect = "#iframe_connect_" + id;
+            $(iframeConnect).remove();
+        }
+
+        function hideAllElements(className) {
+            let listElements = document.getElementsByClassName(className);
+            for (i = 0; i < listElements.length; i++) {
+                if (className == "iframe-connect") {
+                    listElements[i].style.display = "none";
+                } else if (className == "connect-description") {
+                    listElements[i].className = listElements[i].className.replace(" user-connecting", "");
+                }
+            }
+        }
+
+        function checkIframeConnected(id) {
+            let idIframe = "#iframe_connect_" + id;
+            if ($(idIframe).attr('src') != "") {
+                return true;
+            }
+            return false;
+        }
+
+        function newConnect() {
+            let checkIframe = checkIframeConnected(currentIndex);
+
+            // If checkIframe = true (all iframe has src) => will create new connect
+            // Else return screen connect
+            if (checkIframe) {
+                let newId = currentIndex + 1;
+                currentIndex++;
+
+                // Khởi tạo child mới 
+                let listConnect = document.getElementById('list_connected');
+                let newConnect =
+                    '<div id="user_connected_' + newId + '" class="connect-description user-connecting">' +
+                    '<div class="user-status" style="float:left; width: 85%;" onclick="showIframeConnect(' + newId + ')">' +
+                    '<img class="status" style="padding-top: 3px;" src="images/update/offline.png" alt="">' +
+                    '<span>new connection</span>' +
+                    '</div>' +
+                    '<div class="close-connect" onclick="removeConnection(' + newId + ')" style="float: right; background: red; cursor: pointer;">' +
+                    '<img style="float: right; width: 15px; cursor: pointer;" src="images/update/close.png" alt="">' +
+                    '</div>' +
+                    '<div style="clear: both;"></div>' +
+                    '</div>';
+                listConnect.insertAdjacentHTML('beforeend', newConnect);
+
+                // Thêm iframe kết nối
+                let listIframeConnect = document.getElementById('list_iframe_connect');
+                let newIframe = '<iframe id="iframe_connect_' + newId + '" class="iframe-connect" src="" frameborder="0"></iframe>';
+                listIframeConnect.insertAdjacentHTML('beforeend', newIframe);
+
+                // Hiện màn hình bắt đầu kết nối
+                hideAllElements("iframe-connect");
+
+                hideAllElements("connect-description");
+                let userConnect = "#user_connected_" + newId;
+                $(userConnect).addClass('user-connecting');
+
+            } else {
+                showIframeConnect(currentIndex)
+            }
+        }
+
+        function cancleSendFile(id) {
+            let idFile = "#" + id;
+            $(idFile).find(".progress-bar").remove();
+            $(idFile).find(".file-info-3").remove();
+
+            let statusFile = '<div class="file-status">Cancle</div>';
+            $(idFile).find(".file-size").append(statusFile);
+        }
+
+        // TOGGLE OPEN CHAT BOX
+        function openChatBox() {
+            document.getElementById('chat_box').classList.add("chat-box-open");
+            setTimeout(function () {
+                document.getElementById('input_chat_box').focus();
+            }, 100);
+        }
+
+        function closeChatBox() {
+            document.getElementById('chat_box').classList.remove("chat-box-open");
+        }
+
+        function toggleChatBox() {
+            if (document.getElementById("chat_box").classList.contains("chat-box-open")) {
+                closeChatBox();
+            } else {
+                openChatBox();
+            }
+        }
+
+        // -------------- HANDLE CHAT BOX --------------------- //
+        // Button F1 - open chat box
+        shortcut.add("F1", function () {
+            toggleChatBox();
+        });
+
+        // Chat Enter - send message
+        shortcut.add("Enter", function () {
+            // Get time now
+            let d = new Date();
+            let hours = d.getHours();
+            let min = d.getMinutes();
+            let newChat = document.getElementById("input_chat_box").value;
+
+            // Add new node chat to the conversation and refresh
+            let parent = document.getElementById('conversation');
+            let newChild = '<div class="test"><span class="my-mess"><b>Tôi </b>(' + hours + ':' + min + '): </span >' + newChat + '</div > ';
+            parent.insertAdjacentHTML('beforeend', newChild);
+            document.getElementById("input_chat_box").value = "";
+            scrollLastestChat();
+        });
+
+        // Scroll to the lastest chat
+        function scrollLastestChat() {
+            let listChat = document.getElementsByClassName("chat-partner");
+            let lastChat = listChat[listChat.length - 1];
+            lastChat.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Drag file to chat box
+        function handleFileSelect(evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+
+            var listFiles = evt.dataTransfer.files; // listFils send in 1 turn
+
+            // files is a FileList of File objects. List some properties.
+            for (let file of listFiles) {
+                let idFile = "file_send_" + indexSendFile;
+                let idProgressBar = "progress_bar_" + indexSendFile;
+
+                let fileSize = file.size / Math.pow(10, 6);
+                let parent = document.getElementById('conversation');
+
+                let newChild =
+                    '<div class="uploading-file chat-partner" id="' + idFile + '" > ' +
+                    '<div class="file-info-1">' +
+                    '<img src="images/update/file.png" alt="">' +
+                    '<div class="time-upload">10:04</div>' +
+                    '</div>' +
+                    '<div class="file-info-2">' +
+                    '<div class="progress">' +
+                    '<div class="file-name">' + file.name + '</div>' +
+                    '<div class="progress-bar" id="' + idProgressBar + '">' +
+                    '<div class="progress-bar-uploading">70%</div>' +
+                    '</div>' +
+                    '<div class="file-size">' + fileSize.toFixed(2) + 'MB</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="file-info-3">' +
+                    '<img src="images/update/close.png" alt="" style="cursor:pointer;" onclick="cancleSendFile(`' + idFile + '`)">' +
+                    '</div>' +
+                    '<div style="clear: both;"></div>' +
+                    '</div>';
+
+                parent.insertAdjacentHTML('beforeend', newChild);
+
+                indexSendFile++;
+            }
+            scrollLastestChat();
+        }
+
+        // Giữ file thả vào chat box => hiện chữ "move"
+        function handleDragOver(evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+            evt.dataTransfer.dropEffect = 'move'; // Explicitly show this is a move.
+        }
+
+
+        $(function () { $("#chat_box").draggable({ containment: "window" }); });
+
+        // Setup the dnd listeners.
+        var dropZone = document.getElementById('chat_box');
+        dropZone.addEventListener('dragover', handleDragOver, false);
+        dropZone.addEventListener('drop', handleFileSelect, false);
+
+        // ---------------- CATCH EVENT FROM CHILD (NOVNC) ----------------- //
+        // Get all event from child (noVNC) - Check event từ thằng con là noVNC bắn lên
+        var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+        var eventer = window[eventMethod];
+        var messageEvent = eventMethod === "attachEvent" ? "onmessage" : "message";
+
+        eventer(messageEvent, function (e) {
+            let nameEvent = e.data.name_event;
+
+            if (nameEvent == "open-chat-box") {
+                openChatBox();
+            }
+
+            // Hiện lỗi nếu không kết nối được tới máy chủ
+            if (nameEvent == "connect-error") {
+                let status = e.data.status;
+                if (status != "normal") {
+                    listError.push(e);
+                    // clear iframe and alert error why cannot connect to no vnc
+                    $("#frame-connect").remove();
+
+                    // always return notice error (1st element of list Error)
+                    $("#notice-error").text(listError[0].data.mess);
+                    $('.remote-wrapper').css('display', 'block');
+                    $('#wrong_connect').css('display', 'block');
+                    $('#overlay_wrong_connect').css('display', 'block');
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

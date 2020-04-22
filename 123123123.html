@@ -1,0 +1,353 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Crown - premium responsive admin template for backend systems</title>
+    <link href="css/main.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+
+    <script type="text/javascript" src="js/plugins/spinner/jquery.mousewheel.js"></script>
+
+    <script type="text/javascript" src="js/plugins/charts/excanvas.min.js"></script>
+    <script type="text/javascript" src="js/plugins/charts/jquery.sparkline.min.js"></script>
+
+    <script type="text/javascript" src="js/plugins/forms/uniform.js"></script>
+    <script type="text/javascript" src="js/plugins/forms/jquery.cleditor.js"></script>
+    <script type="text/javascript" src="js/plugins/forms/jquery.validationEngine-en.js"></script>
+    <script type="text/javascript" src="js/plugins/forms/jquery.validationEngine.js"></script>
+    <script type="text/javascript" src="js/plugins/forms/jquery.tagsinput.min.js"></script>
+    <script type="text/javascript" src="js/plugins/forms/jquery.autosize.js"></script>
+    <script type="text/javascript" src="js/plugins/forms/jquery.maskedinput.min.js"></script>
+    <script type="text/javascript" src="js/plugins/forms/jquery.dualListBox.js"></script>
+    <script type="text/javascript" src="js/plugins/forms/jquery.inputlimiter.min.js"></script>
+    <script type="text/javascript" src="js/plugins/forms/chosen.jquery.min.js"></script>
+
+    <script type="text/javascript" src="js/plugins/wizard/jquery.form.js"></script>
+    <script type="text/javascript" src="js/plugins/wizard/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="js/plugins/wizard/jquery.form.wizard.js"></script>
+
+    <script type="text/javascript" src="js/plugins/uploader/plupload.js"></script>
+    <script type="text/javascript" src="js/plugins/uploader/plupload.html5.js"></script>
+    <script type="text/javascript" src="js/plugins/uploader/plupload.html4.js"></script>
+    <script type="text/javascript" src="js/plugins/uploader/jquery.plupload.queue.js"></script>
+
+    <script type="text/javascript" src="js/plugins/tables/datatable.js"></script>
+    <script type="text/javascript" src="js/plugins/tables/tablesort.min.js"></script>
+    <script type="text/javascript" src="js/plugins/tables/resizable.min.js"></script>
+
+    <script type="text/javascript" src="js/plugins/ui/jquery.tipsy.js"></script>
+    <script type="text/javascript" src="js/plugins/ui/jquery.collapsible.min.js"></script>
+    <script type="text/javascript" src="js/plugins/ui/jquery.prettyPhoto.js"></script>
+    <script type="text/javascript" src="js/plugins/ui/jquery.progress.js"></script>
+    <script type="text/javascript" src="js/plugins/ui/jquery.timeentry.min.js"></script>
+    <script type="text/javascript" src="js/plugins/ui/jquery.colorpicker.js"></script>
+    <script type="text/javascript" src="js/plugins/ui/jquery.jgrowl.js"></script>
+    <script type="text/javascript" src="js/plugins/ui/jquery.breadcrumbs.js"></script>
+    <script type="text/javascript" src="js/plugins/ui/jquery.sourcerer.js"></script>
+
+    <script type="text/javascript" src="js/plugins/jquery.fullcalendar.js"></script>
+    <script type="text/javascript" src="js/plugins/jquery.elfinder.js"></script>
+
+    <script type="text/javascript" src="js/custom.js"></script>
+    <style>
+        .formQuickSupport {
+            padding: 5px 0;
+        }
+
+        .formQuickSupport:after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        .infoquicksupport .title {
+            border-top: 1px solid #cdcdcd;
+        }
+
+        .infoquicksupport .title :after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        .iconremotecontrol {
+            float: right;
+            padding: 11px 11px;
+        }
+
+        .buttonquicksupport {
+            padding: 10px 30px;
+            float: right;
+        }
+
+        .logoquicksupport {
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        .logoquicksupport img {
+            width: 140px;
+        }
+
+        .iconultraviewer {
+            float: left;
+            padding: 11px 11px;
+        }
+
+        .wrapper{
+            /* display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;     */
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Left side content -->
+    <div id="leftSide">
+        <div class="logo"><a href="index.html"><img src="images/logo.png" alt="" /></a></div>
+
+        <div class="sidebarSep mt0"></div>
+
+        <!-- Search widget -->
+        <form action="" class="sidebarSearch">
+            <input type="text" name="search" placeholder="search..." id="ac" />
+            <input type="submit" value="" />
+        </form>
+
+        <div class="sidebarSep"></div>
+
+        <!-- General balance widget -->
+        <div class="genBalance">
+            <a href="#" title="" class="amount">
+                <span>General balance:</span>
+                <span class="balanceAmount">$10,900.36</span>
+            </a>
+            <a href="#" title="" class="amChanges">
+                <strong class="sPositive">+0.6%</strong>
+            </a>
+        </div>
+
+        <!-- Next update progress widget -->
+        <div class="nextUpdate">
+            <ul>
+                <li>Next update in:</li>
+                <li>23 hrs 14 min</li>
+            </ul>
+            <div class="pWrapper">
+                <div class="progressG" title="78%"></div>
+            </div>
+        </div>
+
+        <div class="sidebarSep"></div>
+
+        <!-- Left navigation -->
+        <ul id="menu" class="nav">
+            <li class="dash"><a href="quick_support.html" title="" class="active"><span>Quick Support</span></a></li>
+            <li class="dash"><a href="index.html" title=""><span>Dashboard</span></a></li>
+            <li class="charts"><a href="charts.html" title=""><span>Statistics and charts</span></a></li>
+            <li class="forms"><a href="#" title="" class="exp"><span>Forms stuff</span><strong>4</strong></a>
+                <ul class="sub">
+                    <li><a href="forms.html" title="">Form elements</a></li>
+                    <li><a href="form_validation.html" title="">Validation</a></li>
+                    <li><a href="form_editor.html" title="">WYSIWYG and file uploader</a></li>
+                    <li class="last"><a href="form_wizards.html" title="">Wizards</a></li>
+                </ul>
+            </li>
+            <li class="ui"><a href="ui_elements.html" title=""><span>Interface elements</span></a></li>
+            <li class="tables"><a href="tables.html" title="" class="exp"><span>Tables</span><strong>3</strong></a>
+                <ul class="sub">
+                    <li><a href="table_static.html" title="">Static tables</a></li>
+                    <li><a href="table_dynamic.html" title="">Dynamic table</a></li>
+                    <li class="last"><a href="table_sortable_resizable.html" title="">Sortable &amp; resizable
+                            tables</a></li>
+                </ul>
+            </li>
+            <li class="widgets"><a href="#" title="" class="exp"><span>Widgets and grid</span><strong>2</strong></a>
+                <ul class="sub">
+                    <li><a href="widgets.html" title="">Widgets</a></li>
+                    <li class="last"><a href="grid.html" title="">Grid</a></li>
+                </ul>
+            </li>
+            <li class="errors"><a href="#" title="" class="exp"><span>Error pages</span><strong>6</strong></a>
+                <ul class="sub">
+                    <li><a href="403.html" title="">403 page</a></li>
+                    <li><a href="404.html" title="">404 page</a></li>
+                    <li><a href="405.html" title="">405 page</a></li>
+                    <li><a href="500.html" title="">500 page</a></li>
+                    <li><a href="503.html" title="">503 page</a></li>
+                    <li class="last"><a href="offline.html" title="">Website is offline</a></li>
+                </ul>
+            </li>
+            <li class="files"><a href="file_manager.html" title=""><span>File manager</span></a></li>
+            <li class="typo"><a href="#" title="" class="exp"><span>Other pages</span><strong>3</strong></a>
+                <ul class="sub">
+                    <li><a href="typography.html" title="">Typography</a></li>
+                    <li><a href="calendar.html" title="">Calendar</a></li>
+                    <li class="last"><a href="gallery.html" title="">Gallery</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+
+    <!-- Right side -->
+    <div id="rightSide">
+
+        <!-- Responsive header -->
+        <div class="resp">
+            <div class="respHead">
+                <a href="index.html" title=""><img src="images/loginLogo.png" alt="" /></a>
+            </div>
+
+            <div class="cLine"></div>
+            <div class="smalldd">
+                <span class="goTo"><img src="images/icons/light/files.png" alt="" />File manager</span>
+                <ul class="smallDropdown">
+                    <li><a href="index.html" title=""><img src="images/icons/light/home.png" alt="" />Dashboard</a></li>
+                    <li><a href="charts.html" title=""><img src="images/icons/light/stats.png" alt="" />Statistics and
+                            charts</a></li>
+                    <li><a href="#" title="" class="exp"><img src="images/icons/light/pencil.png" alt="" />Forms
+                            stuff<strong>4</strong></a>
+                        <ul>
+                            <li><a href="forms.html" title="">Form elements</a></li>
+                            <li><a href="form_validation.html" title="">Validation</a></li>
+                            <li><a href="form_editor.html" title="">WYSIWYG and file uploader</a></li>
+                            <li class="last"><a href="form_wizards.html" title="">Wizards</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="ui_elements.html" title=""><img src="images/icons/light/users.png" alt="" />Interface
+                            elements</a></li>
+                    <li><a href="tables.html" title="" class="exp"><img src="images/icons/light/frames.png"
+                                alt="" />Tables<strong>3</strong></a>
+                        <ul>
+                            <li><a href="table_static.html" title="">Static tables</a></li>
+                            <li><a href="table_dynamic.html" title="">Dynamic table</a></li>
+                            <li class="last"><a href="table_sortable_resizable.html" title="">Sortable &amp; resizable
+                                    tables</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#" title="" class="exp"><img src="images/icons/light/fullscreen.png" alt="" />Widgets
+                            and grid<strong>2</strong></a>
+                        <ul>
+                            <li><a href="widgets.html" title="">Widgets</a></li>
+                            <li class="last"><a href="grid.html" title="">Grid</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#" title="" class="exp"><img src="images/icons/light/alert.png" alt="" />Error
+                            pages<strong>6</strong></a>
+                        <ul class="sub">
+                            <li><a href="403.html" title="">403 page</a></li>
+                            <li><a href="404.html" title="">404 page</a></li>
+                            <li><a href="405.html" title="">405 page</a></li>
+                            <li><a href="500.html" title="">500 page</a></li>
+                            <li><a href="503.html" title="">503 page</a></li>
+                            <li class="last"><a href="offline.html" title="">Website is offline</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="file_manager.html" title=""><img src="images/icons/light/files.png" alt="" />File
+                            manager</a></li>
+                    <li><a href="#" title="" class="exp"><img src="images/icons/light/create.png" alt="" />Other
+                            pages<strong>3</strong></a>
+                        <ul>
+                            <li><a href="typography.html" title="">Typography</a></li>
+                            <li><a href="calendar.html" title="">Calendar</a></li>
+                            <li class="last"><a href="gallery.html" title="">Gallery</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="cLine"></div>
+        </div>
+
+        <!-- Title area -->
+        <div class="titleArea">
+            <div class="wrapper">
+                <div class="pageTitle">
+                    <h5>Điều khiển máy tính từ xa</h5>
+                    <span>Điều khiển máy tính đối tác từ xa.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="line"></div>
+
+        <!-- Main content wrapper -->
+        <div class="wrapper">
+            <div class="fluid">
+                <div class="span4">
+                    <form class="form">
+                        <div class="widget">
+                            <div class="title">
+                                <img class="iconultraviewer" src="images/icons/dark/stats.png" alt="" />
+                                <h6 id="titlequick">Ultraviewer</h6>
+                            </div>
+                            <div class="bodyquicksupport">
+                                <div class="logoquicksupport">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png"
+                                        alt="">
+                                </div>
+                                <div class="infoquicksupport">
+                                    <div class="title">
+                                        <h6>Allow Remote Control</h6>
+                                        <img class="iconremotecontrol" src="images/icons/dark/stats.png" alt="" />
+                                    </div>
+                                    <div class="formRow">
+                                        <div class="formQuickSupport">
+                                            <span id="textquick">Please tell your partner the following ID and Password
+                                                if you would like to allow remote control</span>
+                                        </div>
+
+                                        <div class="formQuickSupport">
+                                            <label>Your ID</label>
+                                            <div class="formRight">
+                                                <input type="text" value="" />
+                                            </div>
+                                        </div>
+
+                                        <div class="formQuickSupport">
+                                            <label>Password</label>
+                                            <div class="formRight">
+                                                <input type="text" value="" />
+                                            </div>
+                                        </div>
+
+                                        <div class="formQuickSupport">
+                                            <label
+                                                style="color: blue; text-decoration: underline;">ultraviewer.net</label>
+                                            <button class="button basic buttonquicksupport">OK</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Footer line -->
+        <div id="footer">
+            <div class="wrapper">As usually all rights reserved. And as usually brought to you by <a
+                    href="http://themeforest.net/user/Kopyov?ref=kopyov" title="">Eugene Kopyov</a></div>
+        </div>
+
+    </div>
+    <script>
+        $(document).ready(function () {
+            
+        });
+    </script>
+</body>
+
+</html>
