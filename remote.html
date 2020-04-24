@@ -442,6 +442,44 @@
         .user-connecting {
             background: #cce5ff !important;
         }
+
+
+        /*the container must be positioned relative:*/
+        .autocomplete {
+            position: relative;
+            display: inline-block;
+        }
+
+        .autocomplete-items {
+            position: absolute;
+            border: 1px solid #d4d4d4;
+            border-bottom: none;
+            border-top: none;
+            z-index: 99;
+            /* display: contents; */
+            /*position the autocomplete items to be the same width as the container:*/
+            top: 100%;
+            left: 0;
+            right: 0;
+        }
+
+        .autocomplete-items div {
+            padding: 10px;
+            cursor: pointer;
+            background-color: #fff;
+            border-bottom: 1px solid #d4d4d4;
+        }
+
+        /*when hovering an item:*/
+        .autocomplete-items div:hover {
+            background-color: #e9e9e9;
+        }
+
+        /*when navigating through the items using the arrow keys:*/
+        .autocomplete-active {
+            background-color: DodgerBlue !important;
+            color: #ffffff;
+        }
     </style>
 </head>
 
@@ -456,17 +494,17 @@
                 <div class="description">
                     Hãy nhập ID và Password của Đối tác mà bạn muốn kiểm soát hoặc hỗ trợ.
                 </div>
-                <form id="form_connect" class="form" autocomplete="on">
+                <form id="form_connect" class="form" autocomplete="off">
                     <div class="form-remote">
                         <label class="label-remote">Your ID</label>
-                        <div class="inputremote">
-                            <input type="text" id="ultra_user_id" name="ultra_id" />
+                        <div class="inputremote autocomplete">
+                            <input type="text" id="ultra_user_id" />
                         </div>
                     </div>
                     <div class="form-remote">
                         <label class="label-remote">Password</label>
                         <div class="inputremote">
-                            <input type="text" id="ultra_user_password" />
+                            <input type="text" id="ultra_user_password" placeholder="password" />
                         </div>
                     </div>
                     <button class="btn-remote" onclick="connectDevice()">Kết nối với đối tác</button>
@@ -607,6 +645,111 @@
             if (localStorage.getItem('idUltraConnect') != null) {
                 storeIdConnect = JSON.parse(localStorage["idUltraConnect"]);
             }
+        }
+
+        autocomplete(document.getElementById("ultra_user_id"), storeIdConnect);
+
+        // -------------- AUTO COMPLETE WHEN INPUT ID CONNECT ------------------ //
+        /*execute a function when someone writes in the text field:*/
+        function autocomplete(inp, arr) {
+            var currentFocus;
+
+            inp.addEventListener("input", function (e) {
+                var listSuggest;
+                var suggest;
+                var val = this.value;
+
+                closeAllLists();
+                if (!val) { return false; }
+
+                currentFocus = -1;
+                /*create a DIV element that will contain the items (values):*/
+                listSuggest = document.createElement("DIV");
+                listSuggest.setAttribute("id", this.id + "autocomplete-list");
+                listSuggest.setAttribute("class", "autocomplete-items");
+                /*append the DIV element as a child of the autocomplete container:*/
+                this.parentNode.appendChild(listSuggest);
+
+                /*check if the item starts with the same letters as the text field value:*/
+                for (let x of arr) {
+                    if (x.includes(val)) {
+                        /*create a DIV element for each matching element:*/
+                        suggest = document.createElement("DIV");
+                        /*make the matching letters bold:*/
+                        suggest.innerHTML = "<span>" + x.substr(0, val.length) + "</span>";
+                        suggest.innerHTML += x.substr(val.length);
+                        /*insert a input field that will hold the current array item's value:*/
+                        suggest.innerHTML += "<input type='hidden' value='" + x + "'>";
+                        /*execute a function when someone clicks on the item value (DIV element):*/
+                        suggest.addEventListener("click", function (e) {
+                            /*insert the value for the autocomplete text field:*/
+                            inp.value = this.getElementsByTagName("input")[0].value;
+                            /*close the list of autocompleted values,
+                            (or any other open lists of autocompleted values:*/
+                            closeAllLists();
+                        });
+                        listSuggest.appendChild(suggest);
+                    }
+                }
+            });
+
+            /*execute a function presses a key on the keyboard:*/
+            inp.addEventListener("keydown", function (e) {
+                var x = document.getElementById(this.id + "autocomplete-list");
+                if (x) x = x.getElementsByTagName("div");
+                if (e.keyCode == 40) {  // Down
+                    currentFocus++;
+                    addActive(x);
+                } else if (e.keyCode == 38) { // Up
+                    currentFocus--;
+                    addActive(x);
+                } else if (e.keyCode == 13) { // Enter
+                    e.preventDefault();
+                    if (currentFocus > -1) {
+                        /*and simulate a click on the "active" item:*/
+                        if (x) x[currentFocus].click();
+                    }
+                }
+            });
+
+            /*a function to classify an item as "active":*/
+            function addActive(x) {
+                if (!x) return false;
+                /*start by removing the "active" class on all items:*/
+                removeActive(x);
+                if (currentFocus >= x.length) {
+                    currentFocus = 0;
+                }
+
+                if (currentFocus < 0) {
+                    currentFocus = (x.length - 1);
+                }
+                /*add class "autocomplete-active":*/
+                x[currentFocus].classList.add("autocomplete-active");
+            }
+
+            /*a function to remove the "active" class from all autocomplete items:*/
+            function removeActive(x) {
+                for (var i = 0; i < x.length; i++) {
+                    x[i].classList.remove("autocomplete-active");
+                }
+            }
+
+            /*close all autocomplete lists in the document,
+                except the one passed as an argument:*/
+            function closeAllLists(elmnt) {
+                var x = document.getElementsByClassName("autocomplete-items");
+                for (var i = 0; i < x.length; i++) {
+                    if (elmnt != x[i] && elmnt != inp) {
+                        x[i].parentNode.removeChild(x[i]);
+                    }
+                }
+            }
+
+            /*execute a function when someone clicks in the document:*/
+            document.addEventListener("click", function (e) {
+                closeAllLists(e.target);
+            });
         }
 
         $("#form_connect").submit(function (e) {
@@ -798,7 +941,7 @@
 
             // Add new node chat to the conversation and refresh
             let parent = document.getElementById('conversation');
-            let newChild = '<div class="test"><span class="my-mess"><b>Tôi </b>(' + hours + ':' + min + '): </span >' + newChat + '</div > ';
+            let newChild = '<div class="chat-partner"><span class="my-mess"><b>Tôi </b>(' + hours + ':' + min + '): </span >' + newChat + '</div > ';
             parent.insertAdjacentHTML('beforeend', newChild);
             document.getElementById("input_chat_box").value = "";
             scrollLastestChat();
