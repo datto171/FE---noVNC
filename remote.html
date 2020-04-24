@@ -57,7 +57,7 @@
 
 
     <!-- add Script for button F1 browser - Open chat -->
-    <script src="http://www.openjs.com/scripts/events/keyboard_shortcuts/shortcut.js"></script>
+    <script type="text/javascript" src="shortcut.js"></script>
     <style>
         .chat-box-handle {
             top: 40%;
@@ -456,17 +456,17 @@
                 <div class="description">
                     Hãy nhập ID và Password của Đối tác mà bạn muốn kiểm soát hoặc hỗ trợ.
                 </div>
-                <form id="form_connect" action="" class="form">
+                <form id="form_connect" class="form" autocomplete="on">
                     <div class="form-remote">
                         <label class="label-remote">Your ID</label>
                         <div class="inputremote">
-                            <input type="text" id="" value="" />
+                            <input type="text" id="ultra_user_id" name="ultra_id" />
                         </div>
                     </div>
                     <div class="form-remote">
                         <label class="label-remote">Password</label>
                         <div class="inputremote">
-                            <input type="text" id="" value="" />
+                            <input type="text" id="ultra_user_password" />
                         </div>
                     </div>
                     <button class="btn-remote" onclick="connectDevice()">Kết nối với đối tác</button>
@@ -594,11 +594,22 @@
 
     <script>
         // Check xem iframe cuối cùng đang là bao nhiêu 
-        // Để khí tạo iframe mới thì đây sẽ là số gán với id của iframe đó
+        // Để khi tạo iframe mới thì sẽ gán gtri index với iframe đó
         var currentIndex = 1;
 
         // Check xem đây là file id bao nhiêu
         var indexSendFile = 1;
+
+        // lưu tất cả những id mà user đã từng connect đến 
+        let storeIdConnect = [];
+
+        if (typeof (Storage) !== "undefined") {
+            if (localStorage.getItem('idUltraConnect') != null) {
+                storeIdConnect = JSON.parse(localStorage["idUltraConnect"]);
+            } else {
+                localStorage.setItem("idUltraConnect", "");
+            }
+        }
 
         $("#form_connect").submit(function (e) {
             e.preventDefault();
@@ -612,13 +623,23 @@
 
         // Kết nối tới máy chủ khác (get src cho kết nối mới)
         function connectDevice() {
+            var userId = $("#ultra_user_id").val();
+            var userPassword = $("#ultra_user_password").val();
+
             $.get('https://ultraviewer.net/api/getserveripandport.aspx', { id: '123', pass: '123' }, function (data, textStatus, jqXHR) {
                 let x = data.split(":");
                 let host = x[0];
                 let port = x[1];
                 let url = `http://localhost/novnc/vnc.html?host=${host}&port=${port}&autoconnect=1&password=nhaidepxop`;
 
-                // Show iframe
+                if (!storeIdConnect.includes(userId)) {
+                    storeIdConnect.push(userId);
+                    localStorage["idUltraConnect"] = JSON.stringify(storeIdConnect);
+                }
+
+                $("#ultra_user_id").val("");
+
+                // set url for iframe
                 setIframeSrc(url);
             });
         }
