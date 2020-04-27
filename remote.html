@@ -512,6 +512,8 @@
 </head>
 
 <body class="bg-remote">
+    <div id="test_box"></div>
+
     <!-- Main content wrapper -->
     <div class="remote-wrapper">
         <div class="remote">
@@ -571,7 +573,7 @@
         <img style="width: 35px;" src="images/update/arrow-chat.png" alt="">
     </div>
     <!-- Chat box -->
-    <div id="chat_box" class="chat-box">
+    <div id="chat_box" class="chat-box" onmousedown="dragStartChatBox()" onmouseup="dragOverChatBox()">
         <div class="title-chat" id="title_chat_box">
             <span class="title-label">Ultraview</span>
             <input class="title-btn-close" onclick="closeChatBox()" type="image" src="images/update/close.png">
@@ -1090,7 +1092,20 @@
         function handleDragOver(evt) {
             evt.stopPropagation();
             evt.preventDefault();
+            console.log(123);
             evt.dataTransfer.dropEffect = 'move'; // Explicitly show this is a move.
+        }
+
+        function dragStartChatBox() {
+            $('#test_box').css('width', '100%');
+            $('#test_box').css('height', '100%');
+            $('#test_box').css('z-index', '19');
+            $('#test_box').css('display', 'block');
+            $('#test_box').css('position', 'absolute');
+        }
+
+        function dragOverChatBox() {
+            $('#test_box').css('display', 'none');
         }
 
         $("#chat_box").draggable({ containment: "window", handle: '.title-chat' });
