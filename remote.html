@@ -461,13 +461,16 @@
             top: 100%;
             left: 0;
             right: 0;
+
+            max-height: 205px;
+            overflow: auto;
         }
 
         .autocomplete-items div {
-            padding: 10px;
+            /* padding: 10px;
             cursor: pointer;
             background-color: #fff;
-            border-bottom: 1px solid #d4d4d4;
+            border-bottom: 1px solid #d4d4d4; */
         }
 
         /*when hovering an item:*/
@@ -479,6 +482,30 @@
         .autocomplete-active {
             background-color: DodgerBlue !important;
             color: #ffffff;
+        }
+
+        .autocomplete-items .suggest-id {
+            border-bottom: 1px solid #d4d4d4;
+            background-color: #fff;
+            padding: 5px;
+        }
+
+        .autocomplete-items .suggest-id .suggest-id-value {
+            float: left;
+            padding: 5px 0;
+            cursor: pointer;
+            width: 75%;
+        }
+
+        .autocomplete-items .suggest-id .suggest-id-remove {
+            cursor: pointer;
+            padding: 7px 0;
+            float: right;
+            width: 20%;
+        }
+
+        .autocomplete-items .suggest-id .suggest-id-remove img {
+            width: 15px;
         }
     </style>
 </head>
@@ -546,13 +573,12 @@
     <div id="chat_box" class="chat-box">
         <div class="title-chat">
             <span class="title-label">Ultraview</span>
-            <input class="title-btn-close" onclick="closeChatBox()" type="image" alt="Extra keys"
-                src="images/update/close.png">
+            <input class="title-btn-close" onclick="closeChatBox()" type="image" src="images/update/close.png">
             <div style="clear: both;"></div>
         </div>
         <div class="body-chat">
             <span>Ai đang xem máy tính của bạn</span>
-            <input class="title-btn-close" onclick="newConnect()" style="width: 20px;" type="image" alt="Extra keys"
+            <input class="title-btn-close" onclick="newConnect()" style="width: 20px;" type="image"
                 src="images/update/close.png">
             <div class="list-connected" id="list_connected">
                 <div id="user_connected_1" class="connect-description user-connecting">
@@ -643,7 +669,9 @@
 
         if (typeof (Storage) !== "undefined") {
             if (localStorage.getItem('idUltraConnect') != null) {
-                storeIdConnect = JSON.parse(localStorage["idUltraConnect"]);
+                if (localStorage["idUltraConnect"].length > 0) {
+                    storeIdConnect = JSON.parse(localStorage["idUltraConnect"]);
+                }
             }
         }
 
@@ -673,25 +701,54 @@
                 /*check if the item starts with the same letters as the text field value:*/
                 for (let x of arr) {
                     if (x.includes(val)) {
+                        let newSuggest =
+                            '<div class="suggest-id" id="suggest_id_' + x + '">' +
+                            '<div class="suggest-id-value" onclick="getIdConnect(' + x + ')">' + x + '</div>' +
+                            '<div class="suggest-id-remove" onclick="removeId(' + x + ')">' +
+                            '<img src="images/update/delete-icon.png">' +
+                            '</div>' +
+                            '<div style="clear:both;"></div>' +
+                            '</div>';
+
+                        listSuggest.insertAdjacentHTML('beforeend', newSuggest);
+
+                        // let newSuggest =
+                        //     '<div>' +
+                        //     '<div style="float: left;" id="' + x + '" onclick="getIdConnect(' + x + ')">' +
+                        //     '<span>' + x + '</span>' +
+                        //     '</div>' +
+                        //     '<div style="float: right;" onclick="removeId(' + x + ')">' +
+                        //     '<img style="width: 15px; " src="images/update/delete-icon.png">' +
+                        //     '</div>' +
+                        //     '<div style="clear:both;"></div>' +
+                        //     '</div>';
+
                         /*create a DIV element for each matching element:*/
-                        suggest = document.createElement("DIV");
+                        // suggest = document.createElement("DIV");
+
+                        // suggest.innerHTML = "<span>" + x + "</span>";
+                        // suggest.innerHTML += "<span style='float:right;' onclick='removeId(" + x + ")'><img style='width: 15px;' src='images/update/delete-icon.png'></span>";
+
                         /*make the matching letters bold:*/
-                        suggest.innerHTML = "<span>" + x.substr(0, val.length) + "</span>";
-                        suggest.innerHTML += x.substr(val.length);
+                        // suggest.innerHTML = "<span>" + x.substr(0, val.length) + "</span>";
+                        // suggest.innerHTML += x.substr(val.length);
                         /*insert a input field that will hold the current array item's value:*/
-                        suggest.innerHTML += "<input type='hidden' value='" + x + "'>";
+
+                        // suggest.innerHTML += "<input type='hidden' value='" + x + "'>";
+
                         /*execute a function when someone clicks on the item value (DIV element):*/
-                        suggest.addEventListener("click", function (e) {
-                            /*insert the value for the autocomplete text field:*/
-                            inp.value = this.getElementsByTagName("input")[0].value;
-                            /*close the list of autocompleted values,
-                            (or any other open lists of autocompleted values:*/
-                            closeAllLists();
-                        });
-                        listSuggest.appendChild(suggest);
+                        // suggest.addEventListener("click", function (e) {
+                        /*insert the value for the autocomplete text field:*/
+                        // inp.value = this.getElementsByTagName("input")[0].value;
+                        /*close the list of autocompleted values,
+                        (or any other open lists of autocompleted values:*/
+                        // closeAllLists();
+                        // });
+                        // listSuggest.appendChild(suggest);
                     }
                 }
             });
+
 
             /*execute a function presses a key on the keyboard:*/
             inp.addEventListener("keydown", function (e) {
@@ -747,9 +804,31 @@
             }
 
             /*execute a function when someone clicks in the document:*/
-            document.addEventListener("click", function (e) {
-                closeAllLists(e.target);
-            });
+            // document.addEventListener("click", function (e) {
+            //     closeAllLists(e.target);
+            // });
+        }
+
+        function closeListSuggest() {
+            $(".autocomplete-items").remove();
+        }
+
+        function getIdConnect(id) {
+            $("#ultra_user_id").val(id);
+            closeListSuggest();
+        }
+
+
+        function removeId(value) {
+            for (let id of storeIdConnect) {
+                if (id == value) {
+                    $(`#suggest_id_` + id).remove();
+
+                    storeIdConnect.splice(storeIdConnect.indexOf(id), 1);
+                    localStorage["idUltraConnect"] = JSON.stringify(storeIdConnect);
+                    break;
+                }
+            }
         }
 
         $("#form_connect").submit(function (e) {
