@@ -71,23 +71,24 @@
             height: auto;
             position: absolute;
             top: 25%;
+            /* left: 1177.95px; */
             /* right: 0; */
             background: #d7d7d7;
             border-top-left-radius: 3px;
             border-bottom-left-radius: 3px;
             min-width: 250px;
-            display: none;
+            /* display: none; */
 
             /* transition: 0.2s ease-in-out; */
-            /* opacity: 0; */
-            /* visibility: hidden; */
+            opacity: 0;
+            visibility: hidden;
             /* transform: translateX(75px); */
         }
 
         .chat-box-open {
-            /* opacity: 1; */
-            /* visibility: visible; */
-            display: block;
+            opacity: 1;
+            visibility: visible;
+            /* display: block; */
             z-index: 20;
             /* transform: translateX(0px); */
         }
@@ -571,7 +572,7 @@
     </div>
     <!-- Chat box -->
     <div id="chat_box" class="chat-box">
-        <div class="title-chat">
+        <div class="title-chat" id="title_chat_box">
             <span class="title-label">Ultraview</span>
             <input class="title-btn-close" onclick="closeChatBox()" type="image" src="images/update/close.png">
             <div style="clear: both;"></div>
@@ -909,7 +910,6 @@
             }
             $(userConnect).remove();
 
-
             // Xóa src của iframe đó đi
             let iframeConnect = "#iframe_connect_" + id;
             $(iframeConnect).remove();
@@ -984,15 +984,25 @@
             $(idFile).find(".file-size").append(statusFile);
         }
 
+        // position left of Chat box when user move 
+        var posLeftChatBox = -1;
+
         // TOGGLE OPEN CHAT BOX
         function openChatBox() {
             document.getElementById('chat_box').classList.add("chat-box-open");
+
+            if (posLeftChatBox == -1) {
+                let cssLeftChatBox = screen.width - $('#chat_box').width() - 16;
+                $('#chat_box').css('left', cssLeftChatBox);
+            }
+
             setTimeout(function () {
                 document.getElementById('input_chat_box').focus();
             }, 100);
         }
 
         function closeChatBox() {
+            posLeftChatBox = $('#chat_box').position().left;
             document.getElementById('chat_box').classList.remove("chat-box-open");
         }
 
@@ -1083,8 +1093,7 @@
             evt.dataTransfer.dropEffect = 'move'; // Explicitly show this is a move.
         }
 
-
-        $(function () { $("#chat_box").draggable({ containment: "window" }); });
+        $("#chat_box").draggable({ containment: "window", handle: '.title-chat' });
 
         // Setup the dnd listeners.
         var dropZone = document.getElementById('chat_box');
