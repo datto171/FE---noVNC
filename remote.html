@@ -508,11 +508,19 @@
         .autocomplete-items .suggest-id .suggest-id-remove img {
             width: 15px;
         }
+
+        .test_box_active {
+            width: 100%;
+            height: 100%;
+            z-index: 19;
+            display: block;
+            position: absolute;
+        }
     </style>
 </head>
 
 <body class="bg-remote">
-    <div id="test_box"></div>
+    <div id="test_box_3"></div>
 
     <!-- Main content wrapper -->
     <div class="remote-wrapper">
@@ -573,7 +581,7 @@
         <img style="width: 35px;" src="images/update/arrow-chat.png" alt="">
     </div>
     <!-- Chat box -->
-    <div id="chat_box" class="chat-box" onmousedown="dragStartChatBox()" onmouseup="dragOverChatBox()">
+    <div id="chat_box" class="chat-box" onmousedown="dragStartChatBox()">
         <div class="title-chat" id="title_chat_box">
             <span class="title-label">Ultraview</span>
             <input class="title-btn-close" onclick="closeChatBox()" type="image" src="images/update/close.png">
@@ -1092,21 +1100,22 @@
         function handleDragOver(evt) {
             evt.stopPropagation();
             evt.preventDefault();
-            console.log(123);
             evt.dataTransfer.dropEffect = 'move'; // Explicitly show this is a move.
         }
 
+        // Mouse down => Start move chat box
         function dragStartChatBox() {
-            $('#test_box').css('width', '100%');
-            $('#test_box').css('height', '100%');
-            $('#test_box').css('z-index', '19');
-            $('#test_box').css('display', 'block');
-            $('#test_box').css('position', 'absolute');
+            $('#test_box_3').addClass("test_box_active");
         }
 
-        function dragOverChatBox() {
-            $('#test_box').css('display', 'none');
-        }
+        // Mouse up => check div cover all screen => remove 
+        $(document).mouseup(function () {
+            if ($("#test_box_3").hasClass("test_box_active")) {
+                $('#test_box_3').removeClass("test_box_active");
+            }
+
+            console.log("Mouse up")
+        });
 
         $("#chat_box").draggable({ containment: "window", handle: '.title-chat' });
 
