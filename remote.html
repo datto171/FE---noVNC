@@ -432,6 +432,10 @@
             background: linear-gradient(to bottom, #757d87 0%, #576270 100%);
         }
 
+        .confirm-close-connect {
+            z-index: 30;
+        }
+
         .iframe-connect {
             width: 100%;
             height: 100%;
@@ -516,6 +520,10 @@
             display: block;
             position: absolute;
         }
+
+        .uploader {
+            display: none;
+        }
     </style>
 </head>
 
@@ -571,6 +579,22 @@
         </div>
     </div>
 
+    <div id="close_connect" class="wrong-connect confirm-close-connect">
+        <div class="error-message">
+            <div class="title">
+                <h6>Dialog Title</h6>
+            </div>
+            <div class="body">
+                <div class="description">
+                    <p>Bạn có chắc chắn ngắt kết nối không</p>
+                </div>
+            </div>
+            <div class="footer">
+                <button onclick="removeConnection(closeIdConnect)" class="btn-remote">OK</button>
+            </div>
+        </div>
+    </div>
+
     <div id="list_iframe_connect">
         <iframe id="iframe_connect_1" class="iframe-connect" src="" frameborder="0"></iframe>
     </div>
@@ -597,7 +621,7 @@
                         <img class="status" style=" padding-top: 3px;" src="images/update/offline.png" alt="">
                         <span>ewrwerwere</span>
                     </div>
-                    <div class="close-connect" onclick="removeConnection(1)"
+                    <div class="close-connect" onclick="confirmCloseConnection(1)"
                         style="float: right; background: red; cursor: pointer;">
                         <img src="images/update/close.png" alt="" style="width: 15px;">
                     </div>
@@ -654,20 +678,27 @@
             </div>
 
             <div class="user-chat-box">
-                <input id="input_chat_box" type="text" class="input-chat-box" placeholder="Nhấn F1 để chat nhanh">
+                <textarea id="input_chat_box" style="resize: none;" class="input-chat-box" rows="1" cols=""
+                    placeholder="Nhấn F1 để chat nhanh"></textarea>
                 <div class="image-upload">
                     <label for="file-input">
                         <img src="images/update/attach.png" />
                     </label>
-                    <!-- <input id="file-input" type="file" /> -->
+                    <!-- <input id="file-input" type="file"/> -->
                 </div>
-                <input class="send-message" type="image" src="images/update/send-mess.png" id="">
+                <input class="send-message" onclick="actionSendMessage(contentChat)" type="image"
+                    src="images/update/send-mess.png">
                 <div style="clear: both;"></div>
             </div>
         </div>
     </div>
 
     <script>
+        var contentChat;
+
+        // Biến check xem là sẽ xóa iframe nào
+        var closeIdConnect;
+
         // Check xem iframe cuối cùng đang là bao nhiêu 
         // Để khi tạo iframe mới thì sẽ gán gtri index với iframe đó
         var currentIndex = 1;
@@ -675,7 +706,7 @@
         // Check xem đây là file id bao nhiêu
         var indexSendFile = 1;
 
-        // lưu tất cả những id mà user đã từng connect đến 
+        // lưu tất cả những id mà user đã từng connect đến để lưu vào localstorage của user
         let storeIdConnect = [];
 
         if (typeof (Storage) !== "undefined") {
@@ -902,6 +933,8 @@
             // Biến addConnect này để kiểm tra 
             // xem đây có phải là kết nối vừa mới được set src không (vừa kết nối tới) hay là chỉ là switch iframe thôi
             if (addConnect) {
+                $(".close-connect").css('display', 'block');
+
                 $(userConnect).css('display', 'block');
                 $(userConnect).find(".status").attr('src', 'images/update/online.png');
                 $(userConnect).find("span").text(userConnect);
@@ -910,19 +943,58 @@
             $('.chat-box-handle').css('display', 'block');
         }
 
+        function confirmCloseConnection(id) {
+            $("#close_connect").css('display', 'block');
+            closeIdConnect = id;
+        }
+
         function removeConnection(id) {
-            let userConnect = "#user_connected_" + id;
-
-            if ($(userConnect).hasClass("user-connecting")) {
-                if ($(".iframe-connect").length > 0) {
-                    $(".iframe-connect")[$(".iframe-connect").length - 1].css('display', 'block');
-                }
-            }
-            $(userConnect).remove();
-
             // Xóa src của iframe đó đi
             let iframeConnect = "#iframe_connect_" + id;
             $(iframeConnect).remove();
+
+            // Get id user connect ở chat box 
+            let userConnect = "#user_connected_" + id;
+
+            if ($(userConnect).hasClass("user-connecting")) {
+                if ($(".connect-description").length > 1) {
+                    $(userConnect).remove();
+                    $("#close_connect").css('display', 'none');
+
+                    let newIdConnect = $(".connect-description")[0].id;
+                    let newId = newIdConnect.replace("user_connected_", "");
+                    showIframeConnect(newId);
+                }
+            }
+
+            $(userConnect).remove();
+
+            $("#close_connect").css('display', 'none');
+
+            if ($(".connect-description").length == 0) {
+                let newId = currentIndex + 1;
+                currentIndex++;
+
+                // Khởi tạo child mới 
+                let listConnect = document.getElementById('list_connected');
+                let newConnect =
+                    '<div id="user_connected_' + newId + '" class="connect-description user-connecting">' +
+                    '<div class="user-status" style="float:left; width: 85%;" onclick="showIframeConnect(' + newId + ')">' +
+                    '<img class="status" style="padding-top: 3px;" src="images/update/offline.png" alt="">' +
+                    '<span>new connection</span>' +
+                    '</div>' +
+                    '<div class="close-connect" onclick="confirmCloseConnection(' + newId + ')" style="float: right; background: red; cursor: pointer; display: none;">' +
+                    '<img style="float: right; width: 15px; cursor: pointer;" src="images/update/close.png" alt="">' +
+                    '</div>' +
+                    '<div style="clear: both;"></div>' +
+                    '</div>';
+                listConnect.insertAdjacentHTML('beforeend', newConnect);
+
+                // Thêm iframe kết nối
+                let listIframeConnect = document.getElementById('list_iframe_connect');
+                let newIframe = '<iframe id="iframe_connect_' + newId + '" class="iframe-connect" src="" frameborder="0"></iframe>';
+                listIframeConnect.insertAdjacentHTML('beforeend', newIframe);
+            }
         }
 
         function hideAllElements(className) {
@@ -961,7 +1033,7 @@
                     '<img class="status" style="padding-top: 3px;" src="images/update/offline.png" alt="">' +
                     '<span>new connection</span>' +
                     '</div>' +
-                    '<div class="close-connect" onclick="removeConnection(' + newId + ')" style="float: right; background: red; cursor: pointer;">' +
+                    '<div class="close-connect" onclick="confirmCloseConnection(' + newId + ')" style="float: right; background: red; cursor: pointer; display: none;">' +
                     '<img style="float: right; width: 15px; cursor: pointer;" src="images/update/close.png" alt="">' +
                     '</div>' +
                     '<div style="clear: both;"></div>' +
@@ -1030,21 +1102,72 @@
             toggleChatBox();
         });
 
-        // Chat Enter - send message
-        shortcut.add("Enter", function () {
+        function getCaret(el) {
+            if (el.selectionStart) {
+                return el.selectionStart;
+            } else if (document.selection) {
+                el.focus();
+                var r = document.selection.createRange();
+                if (r == null) {
+                    return 0;
+                }
+                var re = el.createTextRange(), rc = re.duplicate();
+                re.moveToBookmark(r.getBookmark());
+                rc.setEndPoint('EndToStart', re);
+                return rc.text.length;
+            }
+            return 0;
+        }
+
+        // Enter send message
+        $('#input_chat_box').keyup(function (event) {
+            let rowsTextArea = $('#input_chat_box').attr('rows');
+
+            if (event.keyCode == 13) {
+                var content = this.value;
+                var caret = getCaret(this);
+                if (event.shiftKey) {
+                    this.value = content.substring(0, caret - 1) + "\n" + content.substring(caret, content.length);
+                    if (rowsTextArea <= 3) {
+                        rowsTextArea++;
+                    }
+                    $('#input_chat_box').attr('rows', rowsTextArea);
+                    contentChat = this.value;
+                    event.stopPropagation();
+                } else {
+                    this.value = content.substring(0, caret - 1) + content.substring(caret, content.length);
+                    sendMessage(this.value);
+                }
+            }
+        });
+
+        // Button send message
+        function actionSendMessage(message) {
+            var getTextArea = $("#input_chat_box");
+            var content = getTextArea.val();
+            var caret = getCaret(getTextArea);
+            getTextArea.value = content.substring(0, caret - 1) + content.substring(caret, content.length);
+            sendMessage(getTextArea.value);
+        }
+
+        function sendMessage(message) {
             // Get time now
             let d = new Date();
             let hours = d.getHours();
             let min = d.getMinutes();
-            let newChat = document.getElementById("input_chat_box").value;
 
             // Add new node chat to the conversation and refresh
             let parent = document.getElementById('conversation');
-            let newChild = '<div class="chat-partner"><span class="my-mess"><b>Tôi </b>(' + hours + ':' + min + '): </span >' + newChat + '</div > ';
+            let newChild =
+                '<div class="chat-partner">' +
+                '<span class="my-mess"><b>Tôi </b>(' + hours + ':' + min + '): </span >' +
+                '<span style = "white-space: pre-wrap;">' + message + '</span>' +
+                '</div > ';
             parent.insertAdjacentHTML('beforeend', newChild);
-            document.getElementById("input_chat_box").value = "";
+            $('#input_chat_box').val("");
+            $('#input_chat_box').attr('rows', 1);
             scrollLastestChat();
-        });
+        }
 
         // Scroll to the lastest chat
         function scrollLastestChat() {
@@ -1113,8 +1236,6 @@
             if ($("#test_box_3").hasClass("test_box_active")) {
                 $('#test_box_3').removeClass("test_box_active");
             }
-
-            console.log("Mouse up")
         });
 
         $("#chat_box").draggable({ containment: "window", handle: '.title-chat' });
