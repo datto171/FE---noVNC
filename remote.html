@@ -1240,6 +1240,35 @@
 
         $("#chat_box").draggable({ containment: "window", handle: '.title-chat' });
 
+        function toggleFullScreen() {
+            if (document.fullscreenElement || // alternative standard method
+                document.mozFullScreenElement || // currently working methods
+                document.webkitFullscreenElement ||
+                document.msFullscreenElement) {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            } else {
+                if (document.documentElement.requestFullscreen) {
+                    console.log(document.documentElement);
+                    document.documentElement.requestFullscreen();
+                } else if (document.documentElement.mozRequestFullScreen) {
+                    document.documentElement.mozRequestFullScreen();
+                } else if (document.documentElement.webkitRequestFullscreen) {
+                    document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+                } else if (document.body.msRequestFullscreen) {
+                    document.body.msRequestFullscreen();
+                }
+            }
+        }
+
+
         // Setup the dnd listeners.
         var dropZone = document.getElementById('chat_box');
         dropZone.addEventListener('dragover', handleDragOver, false);
@@ -1254,8 +1283,12 @@
         eventer(messageEvent, function (e) {
             let nameEvent = e.data.name_event;
 
-            if (nameEvent == "open-chat-box") {
-                openChatBox();
+            if (nameEvent == "toggle-chat-box") {
+                toggleChatBox();
+            }
+
+            if (nameEvent == "toggle-full-screen") {
+                toggleFullScreen();
             }
 
             // Hiện lỗi nếu không kết nối được tới máy chủ
