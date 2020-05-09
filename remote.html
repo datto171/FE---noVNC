@@ -67,29 +67,45 @@
             position: fixed;
         }
 
+        .chat-box-handle-active {
+            display: block;
+        }
+
+        /* arrow left when chat box active */
+        .chat-box-arrow {
+            width: 0;
+            top: 40%;
+            left: -35px;
+            z-index: 30;
+            display: block;
+            position: absolute;
+            border-right: 35px solid #d7d7d7;
+            border-bottom: 20px solid transparent;
+        }
+
         .chat-box {
             height: auto;
             position: absolute;
             top: 25%;
-            /* left: 1177.95px; */
-            /* right: 0; */
+            z-index: 20;
             background: #d7d7d7;
             border-top-left-radius: 3px;
             border-bottom-left-radius: 3px;
             min-width: 250px;
-            /* display: none; */
+            display: none;
 
+            /* left: 1177.95px; */
+            /* right: 0; */
             /* transition: 0.2s ease-in-out; */
-            opacity: 0;
-            visibility: hidden;
+            /* opacity: 0; */
+            /* visibility: hidden; */
             /* transform: translateX(75px); */
         }
 
         .chat-box-open {
-            opacity: 1;
-            visibility: visible;
-            /* display: block; */
-            z-index: 20;
+            display: block;
+            /* opacity: 1; */
+            /* visibility: visible; */
             /* transform: translateX(0px); */
         }
 
@@ -263,7 +279,7 @@
             margin-left: 10px;
         }
 
-        .user-chat-box #file-input {
+        .user-chat-box #file_input {
             display: none;
         }
 
@@ -367,10 +383,10 @@
         }
 
         .btn-remote {
-            font-size: 14px;
+            font-size: 13px;
             color: white;
             text-align: center;
-            padding: 12px 12px;
+            padding: 12px 0;
             max-height: 38px;
             border-radius: 3px;
             width: 75%;
@@ -408,7 +424,6 @@
 
         .wrong-connect .error-message .title h6 {
             padding: 10px;
-            border-bottom: 1px solid #cdcdcd;
             text-align: left;
         }
 
@@ -426,7 +441,7 @@
         }
 
         .wrong-connect .error-message .footer button {
-            width: 17%;
+            width: 20%;
             margin-bottom: 5px;
             margin-top: 6px;
             background: linear-gradient(to bottom, #757d87 0%, #576270 100%);
@@ -479,7 +494,7 @@
         }
 
         /*when hovering an item:*/
-        .autocomplete-items div:hover {
+        .autocomplete-items .suggest-id:hover {
             background-color: #e9e9e9;
         }
 
@@ -581,8 +596,11 @@
 
     <div id="close_connect" class="wrong-connect confirm-close-connect">
         <div class="error-message">
-            <div class="title">
-                <h6>Dialog Title</h6>
+            <div class="title" style="border-bottom: 1px solid #cdcdcd;">
+                <h6 style="float: left;">Dialog Title</h6>
+                <input style="float: right; padding: 10px; width: 20px;" class="title-btn-close"
+                    onclick="closeChatBox()" type="image" src="images/update/close.png">
+                <div style="clear: both;"></div>
             </div>
             <div class="body">
                 <div class="description">
@@ -591,6 +609,7 @@
             </div>
             <div class="footer">
                 <button onclick="removeConnection(closeIdConnect)" class="btn-remote">OK</button>
+                <button onclick="cancleCloseConnect()" class="btn-remote">Cancle</button>
             </div>
         </div>
     </div>
@@ -601,11 +620,14 @@
 
     <!-- CHAT BOX -->
     <!-- Btn control chat box -->
-    <div class="chat-box-handle" onclick="toggleChatBox()">
+    <div id="chat_box_handle" class="chat-box-handle" onclick="toggleChatBox()">
         <img style="width: 35px;" src="images/update/arrow-chat.png" alt="">
     </div>
     <!-- Chat box -->
     <div id="chat_box" class="chat-box" onmousedown="dragStartChatBox()">
+        <div class="chat-box-arrow" onclick="toggleChatBox()">
+            <img style="width: 35px;" src="images/update/arrow-chat.png" alt="">
+        </div>
         <div class="title-chat" id="title_chat_box">
             <span class="title-label">Ultraview</span>
             <input class="title-btn-close" onclick="closeChatBox()" type="image" src="images/update/close.png">
@@ -681,10 +703,10 @@
                 <textarea id="input_chat_box" style="resize: none;" class="input-chat-box" rows="1" cols=""
                     placeholder="Nhấn F1 để chat nhanh"></textarea>
                 <div class="image-upload">
-                    <label for="file-input">
+                    <label for="file_input">
                         <img src="images/update/attach.png" />
                     </label>
-                    <!-- <input id="file-input" type="file"/> -->
+                    <input id="file_input" type="file" multiple />
                 </div>
                 <input class="send-message" onclick="actionSendMessage(contentChat)" type="image"
                     src="images/update/send-mess.png">
@@ -753,61 +775,32 @@
                             '</div>';
 
                         listSuggest.insertAdjacentHTML('beforeend', newSuggest);
-
-                        // let newSuggest =
-                        //     '<div>' +
-                        //     '<div style="float: left;" id="' + x + '" onclick="getIdConnect(' + x + ')">' +
-                        //     '<span>' + x + '</span>' +
-                        //     '</div>' +
-                        //     '<div style="float: right;" onclick="removeId(' + x + ')">' +
-                        //     '<img style="width: 15px; " src="images/update/delete-icon.png">' +
-                        //     '</div>' +
-                        //     '<div style="clear:both;"></div>' +
-                        //     '</div>';
-
-                        /*create a DIV element for each matching element:*/
-                        // suggest = document.createElement("DIV");
-
-                        // suggest.innerHTML = "<span>" + x + "</span>";
-                        // suggest.innerHTML += "<span style='float:right;' onclick='removeId(" + x + ")'><img style='width: 15px;' src='images/update/delete-icon.png'></span>";
-
-                        /*make the matching letters bold:*/
-                        // suggest.innerHTML = "<span>" + x.substr(0, val.length) + "</span>";
-                        // suggest.innerHTML += x.substr(val.length);
-                        /*insert a input field that will hold the current array item's value:*/
-
-                        // suggest.innerHTML += "<input type='hidden' value='" + x + "'>";
-
-                        /*execute a function when someone clicks on the item value (DIV element):*/
-                        // suggest.addEventListener("click", function (e) {
-                        /*insert the value for the autocomplete text field:*/
-                        // inp.value = this.getElementsByTagName("input")[0].value;
-                        /*close the list of autocompleted values,
-                        (or any other open lists of autocompleted values:*/
-                        // closeAllLists();
-                        // });
-                        // listSuggest.appendChild(suggest);
                     }
                 }
             });
 
-
             /*execute a function presses a key on the keyboard:*/
             inp.addEventListener("keydown", function (e) {
                 var x = document.getElementById(this.id + "autocomplete-list");
-                if (x) x = x.getElementsByTagName("div");
+                if (x) {
+                    x = x.getElementsByClassName("suggest-id");
+                }
                 if (e.keyCode == 40) {  // Down
                     currentFocus++;
                     addActive(x);
                 } else if (e.keyCode == 38) { // Up
                     currentFocus--;
                     addActive(x);
-                } else if (e.keyCode == 13) { // Enter
+                } else if (e.keyCode == 13 || e.keyCode == 9) { // Enter or Tab
                     e.preventDefault();
-                    if (currentFocus > -1) {
-                        /*and simulate a click on the "active" item:*/
-                        if (x) x[currentFocus].click();
-                    }
+                    $(".autocomplete-active").find(".suggest-id-value").click();
+
+                    // if (currentFocus > -1) {
+                    //     /*and simulate a click on the "active" item:*/
+                    //     if (x) x[currentFocus].click();
+                    // }
+                } else if (e.keyCode == 27) {
+                    closeListSuggest();
                 }
             });
 
@@ -846,9 +839,9 @@
             }
 
             /*execute a function when someone clicks in the document:*/
-            // document.addEventListener("click", function (e) {
-            //     closeAllLists(e.target);
-            // });
+            document.addEventListener("click", function (e) {
+                closeAllLists(e.target);
+            });
         }
 
         function closeListSuggest() {
@@ -859,7 +852,6 @@
             $("#ultra_user_id").val(id);
             closeListSuggest();
         }
-
 
         function removeId(value) {
             for (let id of storeIdConnect) {
@@ -885,6 +877,7 @@
 
         // Kết nối tới máy chủ khác (get src cho kết nối mới)
         function connectDevice() {
+            closeListSuggest();
             var userId = $("#ultra_user_id").val();
             var userPassword = $("#ultra_user_password").val();
 
@@ -900,6 +893,7 @@
                 }
 
                 $("#ultra_user_id").val("");
+                $("#ultra_user_password").val("");
 
                 // set url for iframe
                 setIframeSrc(url);
@@ -940,10 +934,13 @@
                 $(userConnect).find("span").text(userConnect);
             }
 
-            $('.chat-box-handle').css('display', 'block');
+            if (!$("#chat_box").hasClass("chat-box-open")) {
+                $('#chat_box_handle').addClass('chat-box-handle-active');
+            }
         }
 
         function confirmCloseConnection(id) {
+            $("#overlay_wrong_connect").css('display', 'block');
             $("#close_connect").css('display', 'block');
             closeIdConnect = id;
         }
@@ -960,6 +957,7 @@
                 if ($(".connect-description").length > 1) {
                     $(userConnect).remove();
                     $("#close_connect").css('display', 'none');
+                    $("#overlay_wrong_connect").css('display', 'none');
 
                     let newIdConnect = $(".connect-description")[0].id;
                     let newId = newIdConnect.replace("user_connected_", "");
@@ -968,8 +966,8 @@
             }
 
             $(userConnect).remove();
-
             $("#close_connect").css('display', 'none');
+            $("#overlay_wrong_connect").css('display', 'none');
 
             if ($(".connect-description").length == 0) {
                 let newId = currentIndex + 1;
@@ -995,6 +993,10 @@
                 let newIframe = '<iframe id="iframe_connect_' + newId + '" class="iframe-connect" src="" frameborder="0"></iframe>';
                 listIframeConnect.insertAdjacentHTML('beforeend', newIframe);
             }
+        }
+
+        function cancleCloseConnect() {
+            $("#close_connect").css('display', 'none');
         }
 
         function hideAllElements(className) {
@@ -1071,7 +1073,9 @@
 
         // TOGGLE OPEN CHAT BOX
         function openChatBox() {
+            // console.log("Open");
             document.getElementById('chat_box').classList.add("chat-box-open");
+            $('#chat_box_handle').removeClass("chat-box-handle-active");
 
             if (posLeftChatBox == -1) {
                 let cssLeftChatBox = screen.width - $('#chat_box').width() - 16;
@@ -1084,11 +1088,14 @@
         }
 
         function closeChatBox() {
+            // console.log("Close");
             posLeftChatBox = $('#chat_box').position().left;
             document.getElementById('chat_box').classList.remove("chat-box-open");
+            $('.chat-box-handle').addClass('chat-box-handle-active');
         }
 
         function toggleChatBox() {
+            // console.log("Toggle father");
             if (document.getElementById("chat_box").classList.contains("chat-box-open")) {
                 closeChatBox();
             } else {
@@ -1176,13 +1183,7 @@
             lastChat.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Drag file to chat box
-        function handleFileSelect(evt) {
-            evt.stopPropagation();
-            evt.preventDefault();
-
-            var listFiles = evt.dataTransfer.files; // listFils send in 1 turn
-
+        function infoFileSend(listFiles) {
             // files is a FileList of File objects. List some properties.
             for (let file of listFiles) {
                 let idFile = "file_send_" + indexSendFile;
@@ -1219,6 +1220,24 @@
             scrollLastestChat();
         }
 
+        // Drag file to chat box
+        function handleFileDrag(evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+
+            var listFiles = evt.dataTransfer.files; // listFils send in 1 turn
+            infoFileSend(listFiles);
+        }
+
+        // Drag file to chat box
+        function handleFileSelect(evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+
+            var listFiles = evt.target.files; // FileList object
+            infoFileSend(listFiles);
+        }
+
         // Giữ file thả vào chat box => hiện chữ "move"
         function handleDragOver(evt) {
             evt.stopPropagation();
@@ -1238,7 +1257,10 @@
             }
         });
 
-        $("#chat_box").draggable({ containment: "window", handle: '.title-chat' });
+        $("#chat_box").draggable({
+            containment: "window",
+            handle: '.title-chat',
+        });
 
         function toggleFullScreen() {
             if (document.fullscreenElement || // alternative standard method
@@ -1256,7 +1278,6 @@
                 }
             } else {
                 if (document.documentElement.requestFullscreen) {
-                    console.log(document.documentElement);
                     document.documentElement.requestFullscreen();
                 } else if (document.documentElement.mozRequestFullScreen) {
                     document.documentElement.mozRequestFullScreen();
@@ -1268,11 +1289,11 @@
             }
         }
 
-
         // Setup the dnd listeners.
         var dropZone = document.getElementById('chat_box');
         dropZone.addEventListener('dragover', handleDragOver, false);
-        dropZone.addEventListener('drop', handleFileSelect, false);
+        dropZone.addEventListener('drop', handleFileDrag, false);
+        document.getElementById('file_input').addEventListener('change', handleFileSelect, false);
 
         // ---------------- CATCH EVENT FROM CHILD (NOVNC) ----------------- //
         // Get all event from child (noVNC) - Check event từ thằng con là noVNC bắn lên
