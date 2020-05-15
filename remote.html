@@ -65,6 +65,10 @@
             display: none;
             z-index: 30;
             position: fixed;
+
+            width: 0;
+            border-right: 35px solid #d7d7d7;
+            border-bottom: 20px solid transparent;
         }
 
         .chat-box-handle-active {
@@ -75,7 +79,7 @@
         .chat-box-arrow {
             width: 0;
             top: 40%;
-            left: -35px;
+            left: -27px;
             z-index: 30;
             display: block;
             position: absolute;
@@ -132,10 +136,10 @@
         .list-connected,
         .conversation {
             overflow: auto;
-            margin: 3px 0 6px 0;
+            margin: 3px 1px 6px 1px;
             border-radius: 2px;
             background: white;
-            border: 1px solid #a9a9a961;
+            /* border: 1px solid #a9a9a961; */
         }
 
         .list-connected {
@@ -175,7 +179,7 @@
 
         .progress {
             padding: 0 !important;
-            background: lightblue;
+            /* background: lightblue; */
             margin: 0 5px;
             text-align: center;
         }
@@ -304,6 +308,7 @@
             padding: 5px;
             background: white;
             text-transform: uppercase;
+            cursor: pointer;
         }
 
         .list-connected .connect-description .status {
@@ -539,6 +544,26 @@
         .uploader {
             display: none;
         }
+
+        .fake-input {
+            position: relative;
+            width: 240px;
+        }
+
+        .fake-input input {
+            background-color: #fff;
+            display: block;
+            width: 100%;
+            box-sizing: border-box
+        }
+
+        .fake-input .icon-drop-down {
+            position: absolute;
+            top: 2px;
+            right: 5px;
+            width: 25px;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -558,9 +583,11 @@
                 <form id="form_connect" class="form" autocomplete="off">
                     <div class="form-remote">
                         <label class="label-remote">Your ID</label>
-                        <div class="inputremote autocomplete">
+                        <div class="inputremote autocomplete fake-input" id="test_xxx">
                             <input type="text" id="ultra_user_id" />
+                            <img class="icon-drop-down" id="icon_drop_down" src="images/update/dropdown-icon.png" />
                         </div>
+                        <button id="test_123"></button>
                     </div>
                     <div class="form-remote">
                         <label class="label-remote">Password</label>
@@ -568,7 +595,8 @@
                             <input type="text" id="ultra_user_password" placeholder="password" />
                         </div>
                     </div>
-                    <button class="btn-remote" onclick="connectDevice()">Kết nối với đối tác</button>
+                    <button class="btn-remote" style="font-size: 15px;" onclick="connectDevice()">Kết nối với đối
+                        tác</button>
                 </form>
             </div>
         </div>
@@ -599,7 +627,7 @@
             <div class="title" style="border-bottom: 1px solid #cdcdcd;">
                 <h6 style="float: left;">Dialog Title</h6>
                 <input style="float: right; padding: 10px; width: 20px;" class="title-btn-close"
-                    onclick="closeChatBox()" type="image" src="images/update/close.png">
+                    onclick="cancleCloseConnect()" type="image" src="images/update/close.png">
                 <div style="clear: both;"></div>
             </div>
             <div class="body">
@@ -621,12 +649,14 @@
     <!-- CHAT BOX -->
     <!-- Btn control chat box -->
     <div id="chat_box_handle" class="chat-box-handle" onclick="toggleChatBox()">
-        <img style="width: 35px;" src="images/update/arrow-chat.png" alt="">
+        <img class="chat" style="width: 27px; padding: 7px 0px; cursor: pointer;"
+            src="images/update/Navigate-left-icon.png" alt="">
     </div>
     <!-- Chat box -->
     <div id="chat_box" class="chat-box" onmousedown="dragStartChatBox()">
         <div class="chat-box-arrow" onclick="toggleChatBox()">
-            <img style="width: 35px;" src="images/update/arrow-chat.png" alt="">
+            <img style="width: 27px; padding: 7px 0px; cursor: pointer;" src="images/update/Navigate-right-icon.png"
+                alt="">
         </div>
         <div class="title-chat" id="title_chat_box">
             <span class="title-label">Ultraview</span>
@@ -634,9 +664,11 @@
             <div style="clear: both;"></div>
         </div>
         <div class="body-chat">
-            <span>Ai đang xem máy tính của bạn</span>
-            <input class="title-btn-close" onclick="newConnect()" style="width: 20px;" type="image"
-                src="images/update/close.png">
+            <div>
+                <span>Ai đang xem máy tính của bạn</span>
+                <input class="title-btn-close" onclick="newConnect()" style="width: 16px;" type="image"
+                    src="images/update/add-icon.png">
+            </div>
             <div class="list-connected" id="list_connected">
                 <div id="user_connected_1" class="connect-description user-connecting">
                     <div class="user-status" style="float:left; width: 85%;" onclick="showIframeConnect(1)">
@@ -644,8 +676,8 @@
                         <span>ewrwerwere</span>
                     </div>
                     <div class="close-connect" onclick="confirmCloseConnection(1)"
-                        style="float: right; background: red; cursor: pointer;">
-                        <img src="images/update/close.png" alt="" style="width: 15px;">
+                        style="float: right; cursor: pointer;">
+                        <img src="images/update/delete-icon.png" alt="">
                     </div>
                     <div style="clear: both;"></div>
                 </div>
@@ -716,6 +748,8 @@
     </div>
 
     <script>
+        var userIdConnect;
+
         var contentChat;
 
         // Biến check xem là sẽ xóa iframe nào
@@ -734,38 +768,48 @@
         if (typeof (Storage) !== "undefined") {
             if (localStorage.getItem('idUltraConnect') != null) {
                 if (localStorage["idUltraConnect"].length > 0) {
+                    console.log("test");
                     storeIdConnect = JSON.parse(localStorage["idUltraConnect"]);
                 }
             }
         }
 
-        autocomplete(document.getElementById("ultra_user_id"), storeIdConnect);
+        var ultraUserId = document.getElementById("ultra_user_id");
+        // var ultraUserId = $("#ultra_user_id")[0];
+        autocomplete(ultraUserId, storeIdConnect);
+
+        document.getElementById("ultra_user_id").addEventListener("input", function () {
+            suggestUserIdConnect(true);
+        });
+
+        document.getElementById("ultra_user_id").addEventListener("click", function () {
+            suggestUserIdConnect(true);
+        });
+
+
 
         // -------------- AUTO COMPLETE WHEN INPUT ID CONNECT ------------------ //
-        /*execute a function when someone writes in the text field:*/
-        function autocomplete(inp, arr) {
-            var currentFocus;
 
-            inp.addEventListener("input", function (e) {
-                var listSuggest;
-                var suggest;
-                var val = this.value;
+        function suggestUserIdConnect(boolValueInput) {
+            var valueInput = $("#ultra_user_id").val();
 
-                closeAllLists();
-                if (!val) { return false; }
+            if (boolValueInput) {
+                closeListSuggest();
+                if (!valueInput) { return false; }
+            }
 
-                currentFocus = -1;
-                /*create a DIV element that will contain the items (values):*/
-                listSuggest = document.createElement("DIV");
-                listSuggest.setAttribute("id", this.id + "autocomplete-list");
-                listSuggest.setAttribute("class", "autocomplete-items");
-                /*append the DIV element as a child of the autocomplete container:*/
-                this.parentNode.appendChild(listSuggest);
+            currentFocus = -1;
+            /*create a DIV element that will contain the items (values):*/
+            var listSuggest = document.createElement("DIV");
+            listSuggest.setAttribute("id", this.id + "autocomplete-list");
+            listSuggest.setAttribute("class", "autocomplete-items");
 
-                /*check if the item starts with the same letters as the text field value:*/
-                for (let x of arr) {
-                    if (x.includes(val)) {
-                        let newSuggest =
+            /*check if the item starts with the same letters as the text field value:*/
+            for (let x of storeIdConnect) {
+                let newSuggest = "";
+                if (boolValueInput) {
+                    if (x.includes(valueInput)) {
+                        newSuggest =
                             '<div class="suggest-id" id="suggest_id_' + x + '">' +
                             '<div class="suggest-id-value" onclick="getIdConnect(' + x + ')">' + x + '</div>' +
                             '<div class="suggest-id-remove" onclick="removeId(' + x + ')">' +
@@ -773,11 +817,52 @@
                             '</div>' +
                             '<div style="clear:both;"></div>' +
                             '</div>';
-
-                        listSuggest.insertAdjacentHTML('beforeend', newSuggest);
                     }
+                } else {
+                    newSuggest =
+                        '<div class="suggest-id" id="suggest_id_' + x + '">' +
+                        '<div class="suggest-id-value" onclick="getIdConnect(' + x + ')">' + x + '</div>' +
+                        '<div class="suggest-id-remove" onclick="removeId(' + x + ')">' +
+                        '<img src="images/update/delete-icon.png">' +
+                        '</div>' +
+                        '<div style="clear:both;"></div>' +
+                        '</div>';
                 }
-            });
+                listSuggest.insertAdjacentHTML('beforeend', newSuggest);
+            }
+
+            /*append the DIV element as a child of the autocomplete container:*/
+            // this.parentNode.appendChild(listSuggest);
+            // $("#test_xxx")[0].appendChild(listSuggest);
+            // document.getElementById("ultra_user_id").appendChild(listSuggest);
+            document.getElementById("test_xxx").insertAdjacentElement('beforeend', listSuggest);
+            // $("#test_xxx")[0].insertAdjacentElement('beforeend', listSuggest);
+            console.log(listSuggest);
+        }
+
+        document.getElementById("icon_drop_down").addEventListener("click", function () {
+            suggestUserIdConnect(false);
+        });
+
+        document.getElementById("icon_drop_down").addEventListener("dblclick", function () {
+            suggestUserIdConnect(false);
+        });
+
+        document.getElementById("test_123").addEventListener("dblclick", function () {
+            suggestUserIdConnect(false);
+        });
+
+        /*execute a function when someone writes in the text field:*/
+        function autocomplete(inp, arr) {
+            var currentFocus;
+
+            // inp.addEventListener("input", function () {
+            //     suggestUserIdConnect(true);
+            // });
+
+            // inp.addEventListener("dblclick", function () {
+            //     suggestUserIdConnect(false);
+            // });
 
             /*execute a function presses a key on the keyboard:*/
             inp.addEventListener("keydown", function (e) {
@@ -795,10 +880,10 @@
                     e.preventDefault();
                     $(".autocomplete-active").find(".suggest-id-value").click();
 
-                    // if (currentFocus > -1) {
-                    //     /*and simulate a click on the "active" item:*/
-                    //     if (x) x[currentFocus].click();
-                    // }
+                    if (currentFocus > -1) {
+                        /*and simulate a click on the "active" item:*/
+                        if (x) x[currentFocus].click();
+                    }
                 } else if (e.keyCode == 27) {
                     closeListSuggest();
                 }
@@ -840,7 +925,8 @@
 
             /*execute a function when someone clicks in the document:*/
             document.addEventListener("click", function (e) {
-                closeAllLists(e.target);
+                closeListSuggest();
+                // closeAllLists(e.target);
             });
         }
 
@@ -878,7 +964,7 @@
         // Kết nối tới máy chủ khác (get src cho kết nối mới)
         function connectDevice() {
             closeListSuggest();
-            var userId = $("#ultra_user_id").val();
+            userIdConnect = $("#ultra_user_id").val();
             var userPassword = $("#ultra_user_password").val();
 
             $.get('https://ultraviewer.net/api/getserveripandport.aspx', { id: '123', pass: '123' }, function (data, textStatus, jqXHR) {
@@ -887,10 +973,12 @@
                 let port = x[1];
                 let url = `http://localhost/novnc/vnc.html?host=${host}&port=${port}&autoconnect=1&password=nhaidepxop`;
 
-                if (!storeIdConnect.includes(userId)) {
-                    storeIdConnect.push(userId);
-                    localStorage["idUltraConnect"] = JSON.stringify(storeIdConnect);
+                if (storeIdConnect.includes(userIdConnect)) {
+                    storeIdConnect.splice(storeIdConnect.indexOf(userIdConnect), 1);
                 }
+                storeIdConnect.splice(0, 0, userIdConnect);
+                // storeIdConnect.push(userIdConnect);
+                localStorage["idUltraConnect"] = JSON.stringify(storeIdConnect);
 
                 $("#ultra_user_id").val("");
                 $("#ultra_user_password").val("");
@@ -997,6 +1085,7 @@
 
         function cancleCloseConnect() {
             $("#close_connect").css('display', 'none');
+            $("#overlay_wrong_connect").css('display', 'none');
         }
 
         function hideAllElements(className) {
@@ -1035,8 +1124,8 @@
                     '<img class="status" style="padding-top: 3px;" src="images/update/offline.png" alt="">' +
                     '<span>new connection</span>' +
                     '</div>' +
-                    '<div class="close-connect" onclick="confirmCloseConnection(' + newId + ')" style="float: right; background: red; cursor: pointer; display: none;">' +
-                    '<img style="float: right; width: 15px; cursor: pointer;" src="images/update/close.png" alt="">' +
+                    '<div class="close-connect" onclick="confirmCloseConnection(' + newId + ')" style="float: right; cursor: pointer; display: none;">' +
+                    '<img style="float: right; width: 15px; cursor: pointer;" src="images/update/delete-icon.png" alt="">' +
                     '</div>' +
                     '<div style="clear: both;"></div>' +
                     '</div>';
@@ -1070,6 +1159,7 @@
 
         // position left of Chat box when user move 
         var posLeftChatBox = -1;
+        var checkOpenChatBox = false;
 
         // TOGGLE OPEN CHAT BOX
         function openChatBox() {
@@ -1135,26 +1225,32 @@
                 var caret = getCaret(this);
                 if (event.shiftKey) {
                     this.value = content.substring(0, caret - 1) + "\n" + content.substring(caret, content.length);
+                    contentChat = this.value;
+
                     if (rowsTextArea <= 3) {
                         rowsTextArea++;
                     }
                     $('#input_chat_box').attr('rows', rowsTextArea);
-                    contentChat = this.value;
                     event.stopPropagation();
                 } else {
                     this.value = content.substring(0, caret - 1) + content.substring(caret, content.length);
-                    sendMessage(this.value);
+                    let check = this.value.replace(/\s/g, '').length;
+                    if (check == 0) {
+                        event.preventDefault();
+                    } else {
+                        sendMessage(this.value.trim());
+                    }
                 }
             }
         });
 
-        // Button send message
+        // Click Button send message
         function actionSendMessage(message) {
             var getTextArea = $("#input_chat_box");
             var content = getTextArea.val();
             var caret = getCaret(getTextArea);
             getTextArea.value = content.substring(0, caret - 1) + content.substring(caret, content.length);
-            sendMessage(getTextArea.value);
+            sendMessage(getTextArea.value.trim());
         }
 
         function sendMessage(message) {
